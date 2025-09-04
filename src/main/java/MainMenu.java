@@ -23,7 +23,7 @@ import java.util.logging.*;
  * @author china
  */
 public class MainMenu extends javax.swing.JFrame {
-    FileHandler fileHandler = new FileHandler("C:/Users/china/Downloads/HomeworkManager-PAT-master/HomeworkManager-PAT-master/txtFiles/data.txt");
+    FileHandler fileHandler = new FileHandler("txtFiles/data.txt");
     ArrayList<Task> tasks = fileHandler.readTaskFile();
     ThemeManager themeManager = new ThemeManager();
     TaskManager taskManager = new TaskManager();

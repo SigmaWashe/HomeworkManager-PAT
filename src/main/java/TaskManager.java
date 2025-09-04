@@ -5,14 +5,14 @@ import java.util.*;
 public class TaskManager {
 
     private ArrayList<Task> taskList;
+    private int currentTaskIndex = -1;
+
 
     public TaskManager(){
         taskList = new ArrayList<>();
     }
 
-    public void addTask(Task t){
-        taskList.add(t);
-    }
+    public void addTask(Task t){ taskList.add(t); }
 
     public boolean editTask(int taskID, Task updatedTask){
         for (int i = 0; i < taskList.size(); i++) {
@@ -130,4 +130,5 @@ public class TaskManager {
     public ArrayList<Task> getTaskList() {
         return taskList;
     }
+
 }

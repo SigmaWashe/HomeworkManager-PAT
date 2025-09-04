@@ -47,7 +47,7 @@ public class FileHandler {
     }
 
     public void writeToTaskFile(ArrayList<Task> tasks) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filePath, true))) {
             for (Task task : tasks) {
                 // Now consistent with the read method
                 String line = task.getTaskID() + "#" +

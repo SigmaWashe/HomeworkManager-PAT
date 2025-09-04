@@ -4,6 +4,7 @@ import com.toedter.calendar.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import java.text.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -37,38 +38,47 @@ public class TaskFrame extends javax.swing.JFrame {
         
         themeManager.transparentButton(EditTaskSearchBtn);
         themeManager.transparentButton(DeleteBackBtn);
-        themeManager.transparentButton(DeleteFowardBtn);
+        themeManager.transparentButton(DeleteNextBtn);
         themeManager.transparentButton(MarkDoneBackBtn);
-        themeManager.transparentButton(MarkDoneFowardBtn);
+        themeManager.transparentButton(MarkDoneNextBtn);
 
         /// Show AddTaskPnl by default
         setPanel(AddTaskPnl, new Dimension(450, 500));
         this.pack();
         
     }
+    
+        private void clearTaskLabels() {
+        Taskl1.setText("Task ID       :  ");
+        TaskNamelbl1.setText("Task Name :  ");
+        Subjectlbl1.setText("Subject       :  ");
+        DueDatelbl1.setText("Due Date    :  ");
+        DueTime1.setText("Due Time    :  ");
+        Prioritylbl1.setText("Priority      :  ");
+        Statuslbl1.setText("Status        :  ");
+    }
 
-    private void displayTasks(ArrayList<Task> tasks) {
-        // Define column names
-        String[] columns = {"Task ID", "Task Name", "Subject", "Due Date", "Due At", "Priority", "Status"};
+    private void clearInputFields() {
+        TaskName.setText("");
+        Subject.setText("");
+        DateChooser.setDate(null);
+        HourChooser.setSelectedIndex(0);
+        MinuteChooser.setSelectedIndex(0);
+        PriorityChooser.setSelectedIndex(0);
+        StatusChooser.setSelectedIndex(0);
+    }
 
-        // Create model with 0 initial rows
-        DefaultTableModel todayModel = new DefaultTableModel(columns, 0);
+    private void setPanel(JPanel panelToShow, Dimension frameSize) {
+        AddTaskPnl.setVisible(false);
+        EditTaskPnl.setVisible(false);
+        DeleteTaskPnl.setVisible(false);
+        MarkDonePnl.setVisible(false);
 
-        // Fill the model
-        for (Task task : tasks) {
-            todayModel.addRow(new Object[]{
-                    task.getTaskID(),
-                    task.getTaskName(),
-                    task.getSubject(),
-                    task.getDueDate().format(DateTimeFormatter.ofPattern("dd MM yyyy")),
-                    task.getDueTime().format(DateTimeFormatter.ofPattern("HH:mm")),
-                    task.getPriority(),
-                    task.getStatus()
-            });
-        }
-
-        // Apply model to table
-        jTable1.setModel(todayModel);
+        panelToShow.setVisible(true);
+        this.setPreferredSize(frameSize);
+        this.setSize(frameSize);
+        this.pack();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -99,24 +109,39 @@ public class TaskFrame extends javax.swing.JFrame {
         AddTaskBG = new javax.swing.JLabel();
         EditTaskIcn = new javax.swing.JLabel();
         EditTaskPnl = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        EditTaskSearchFld = new javax.swing.JTextField();
         EditTaskSearchBtn = new javax.swing.JButton();
+        EditTaskSearchFld = new javax.swing.JTextField();
+        EditTaskIDlbl = new javax.swing.JLabel();
+        EditTaskNamefld = new javax.swing.JTextField();
+        EditTaskNamelbl = new javax.swing.JLabel();
+        EditTaskSubjectlbl = new javax.swing.JTextField();
+        EditSubjectlbl = new javax.swing.JLabel();
+        EditTaskDueDatelbl = new com.toedter.calendar.JDateChooser();
+        EditDueDatelbl = new javax.swing.JLabel();
+        EditTaskDueHourlbl = new javax.swing.JComboBox<>();
+        EditTaskDueMinutelbl = new javax.swing.JComboBox<>();
+        EditDueTimelbl = new javax.swing.JLabel();
+        EditTaskPrioritylbl = new javax.swing.JComboBox<>();
+        EditPrioritylbl = new javax.swing.JLabel();
+        StatusChooser1 = new javax.swing.JComboBox<>();
+        EditStatuslbl = new javax.swing.JLabel();
+        EditBackBtn = new javax.swing.JButton();
         EditTaskBtn = new javax.swing.JButton();
+        EditNextBtn = new javax.swing.JButton();
         BG1 = new javax.swing.JLabel();
         DeleteTaskIcn = new javax.swing.JLabel();
         DeleteTaskPnl = new javax.swing.JPanel();
         DeleteTaskSearchFld = new javax.swing.JTextField();
+        Taskl1 = new javax.swing.JLabel();
         TaskNamelbl1 = new javax.swing.JLabel();
         Subjectlbl1 = new javax.swing.JLabel();
         DueDatelbl1 = new javax.swing.JLabel();
         DueTime1 = new javax.swing.JLabel();
         Prioritylbl1 = new javax.swing.JLabel();
         Statuslbl1 = new javax.swing.JLabel();
-        DeleteTaskBtn = new javax.swing.JButton();
         DeleteBackBtn = new javax.swing.JButton();
-        DeleteFowardBtn = new javax.swing.JButton();
+        DeleteTaskBtn = new javax.swing.JButton();
+        DeleteNextBtn = new javax.swing.JButton();
         DeleteTaskBG = new javax.swing.JLabel();
         MarkDoneTaskIcn = new javax.swing.JLabel();
         MarkDonePnl = new javax.swing.JPanel();
@@ -130,7 +155,7 @@ public class TaskFrame extends javax.swing.JFrame {
         Statuslbl2 = new javax.swing.JLabel();
         MarkDoneBackBtn = new javax.swing.JButton();
         MarkDoneBtn = new javax.swing.JButton();
-        MarkDoneFowardBtn = new javax.swing.JButton();
+        MarkDoneNextBtn = new javax.swing.JButton();
         MarkDoneBG = new javax.swing.JLabel();
         TaskFrameBG = new javax.swing.JLabel();
 
@@ -231,75 +256,96 @@ public class TaskFrame extends javax.swing.JFrame {
         });
         getContentPane().add(EditTaskIcn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 170, -1, -1));
 
-        EditTaskPnl.setPreferredSize(new java.awt.Dimension(750, 500));
+        EditTaskPnl.setPreferredSize(new java.awt.Dimension(450, 550));
         EditTaskPnl.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jScrollPane1.setBackground(new Color(40,40,40,128));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(700, 395));
-
-        jTable1.setBackground(new Color(40,40,40,128));
-        jTable1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Task ID", "Task Name", "Task Subject", "Due Date", "Due Time", "Priority", "Staus"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.setRowHeight(24);
-        jTable1.setShowGrid(false);
-        jTable1.setShowVerticalLines(true);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(1);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(5);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(5);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(5);
-            jTable1.getColumnModel().getColumn(6).setPreferredWidth(5);
-        }
-
-        EditTaskPnl.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 0, -1, -1));
-
-        EditTaskSearchFld.setBackground(new Color(40,40,40,128));
-        EditTaskSearchFld.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        EditTaskSearchFld.setForeground(new java.awt.Color(255, 255, 255));
-        EditTaskSearchFld.setToolTipText("Search");
-        EditTaskSearchFld.setPreferredSize(new java.awt.Dimension(155, 40));
-        EditTaskSearchFld.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditTaskSearchFldActionPerformed(evt);
-            }
-        });
-        EditTaskPnl.add(EditTaskSearchFld, new org.netbeans.lib.awtextra.AbsoluteConstraints(565, 410, -1, -1));
 
         EditTaskSearchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/search.png"))); // NOI18N
         EditTaskSearchBtn.setMaximumSize(new java.awt.Dimension(30, 30));
         EditTaskSearchBtn.setMinimumSize(new java.awt.Dimension(30, 30));
-        EditTaskSearchBtn.setPreferredSize(new java.awt.Dimension(40, 40));
+        EditTaskSearchBtn.setPreferredSize(new java.awt.Dimension(30, 30));
         EditTaskSearchBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EditTaskSearchBtnActionPerformed(evt);
             }
         });
-        EditTaskPnl.add(EditTaskSearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(525, 410, -1, -1));
+        EditTaskPnl.add(EditTaskSearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 10, -1, -1));
+
+        EditTaskSearchFld.setBackground(new Color(40,40,40,128));
+        EditTaskSearchFld.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        EditTaskSearchFld.setForeground(new java.awt.Color(255, 255, 255));
+        EditTaskSearchFld.setToolTipText("Search");
+        EditTaskSearchFld.setPreferredSize(new java.awt.Dimension(150, 30));
+        EditTaskSearchFld.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditTaskSearchFldActionPerformed(evt);
+            }
+        });
+        EditTaskPnl.add(EditTaskSearchFld, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 10, -1, -1));
+
+        EditTaskIDlbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        EditTaskIDlbl.setText("Task ID       :");
+        EditTaskIDlbl.setPreferredSize(new java.awt.Dimension(300, 40));
+        EditTaskPnl.add(EditTaskIDlbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+
+        EditTaskNamefld.setPreferredSize(new java.awt.Dimension(210, 40));
+        EditTaskPnl.add(EditTaskNamefld, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 190, -1));
+
+        EditTaskNamelbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        EditTaskNamelbl.setText("Task Name :");
+        EditTaskNamelbl.setPreferredSize(new java.awt.Dimension(300, 40));
+        EditTaskPnl.add(EditTaskNamelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
+
+        EditTaskSubjectlbl.setPreferredSize(new java.awt.Dimension(210, 40));
+        EditTaskPnl.add(EditTaskSubjectlbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, 190, -1));
+
+        EditSubjectlbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        EditSubjectlbl.setText("Subject       :");
+        EditSubjectlbl.setPreferredSize(new java.awt.Dimension(300, 40));
+        EditTaskPnl.add(EditSubjectlbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
+
+        EditTaskDueDatelbl.setToolTipText("Date : dd/MM/yyyy");
+        EditTaskDueDatelbl.setMinSelectableDate(new java.util.Date(1577829600000L));
+        EditTaskPnl.add(EditTaskDueDatelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 190, 40));
+
+        EditDueDatelbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        EditDueDatelbl.setText("Due Date    :");
+        EditDueDatelbl.setPreferredSize(new java.awt.Dimension(300, 40));
+        EditTaskPnl.add(EditDueDatelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, -1));
+
+        EditTaskDueHourlbl.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        EditTaskDueHourlbl.setToolTipText("Hours");
+        EditTaskDueHourlbl.setPreferredSize(new java.awt.Dimension(70, 40));
+        EditTaskPnl.add(EditTaskDueHourlbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, -1, -1));
+
+        EditTaskDueMinutelbl.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        EditTaskDueMinutelbl.setToolTipText("Minutes");
+        EditTaskDueMinutelbl.setPreferredSize(new java.awt.Dimension(70, 40));
+        EditTaskPnl.add(EditTaskDueMinutelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, -1, -1));
+
+        EditDueTimelbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        EditDueTimelbl.setText("Due Time   :");
+        EditDueTimelbl.setPreferredSize(new java.awt.Dimension(300, 40));
+        EditTaskPnl.add(EditDueTimelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, -1, -1));
+
+        EditTaskPrioritylbl.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "High", "Medium", "Low" }));
+        EditTaskPnl.add(EditTaskPrioritylbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 190, 40));
+
+        EditPrioritylbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        EditPrioritylbl.setText("Priority      :");
+        EditPrioritylbl.setPreferredSize(new java.awt.Dimension(300, 40));
+        EditTaskPnl.add(EditPrioritylbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, -1, -1));
+
+        StatusChooser1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Complete", "Pending", "Overdue" }));
+        EditTaskPnl.add(StatusChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 350, 190, 40));
+
+        EditStatuslbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        EditStatuslbl.setText("Status        :");
+        EditStatuslbl.setPreferredSize(new java.awt.Dimension(300, 40));
+        EditTaskPnl.add(EditStatuslbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, -1, -1));
+
+        EditBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/left.png"))); // NOI18N
+        EditBackBtn.setPreferredSize(new java.awt.Dimension(40, 40));
+        EditTaskPnl.add(EditBackBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 470, -1, -1));
 
         EditTaskBtn.setBackground(new Color(40,40,40,128));
         EditTaskBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -310,11 +356,15 @@ public class TaskFrame extends javax.swing.JFrame {
                 EditTaskBtnActionPerformed(evt);
             }
         });
-        EditTaskPnl.add(EditTaskBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 410, -1, -1));
+        EditTaskPnl.add(EditTaskBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 470, -1, -1));
+
+        EditNextBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/right.png"))); // NOI18N
+        EditNextBtn.setPreferredSize(new java.awt.Dimension(40, 40));
+        EditTaskPnl.add(EditNextBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 470, -1, -1));
 
         BG1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/BACKGROUND.png"))); // NOI18N
         BG1.setToolTipText("");
-        EditTaskPnl.add(BG1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 0, 800, 550));
+        EditTaskPnl.add(BG1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 0, 500, 550));
 
         getContentPane().add(EditTaskPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, -1, -1));
 
@@ -342,34 +392,48 @@ public class TaskFrame extends javax.swing.JFrame {
         });
         DeleteTaskPnl.add(DeleteTaskSearchFld, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 10, -1, -1));
 
+        Taskl1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        Taskl1.setText("Task ID       :");
+        Taskl1.setPreferredSize(new java.awt.Dimension(300, 40));
+        DeleteTaskPnl.add(Taskl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+
         TaskNamelbl1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         TaskNamelbl1.setText("Task Name :");
         TaskNamelbl1.setPreferredSize(new java.awt.Dimension(110, 30));
-        DeleteTaskPnl.add(TaskNamelbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 380, 40));
+        DeleteTaskPnl.add(TaskNamelbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 380, 40));
 
         Subjectlbl1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Subjectlbl1.setText("Subject       :");
         Subjectlbl1.setPreferredSize(new java.awt.Dimension(120, 40));
-        DeleteTaskPnl.add(Subjectlbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 380, -1));
+        DeleteTaskPnl.add(Subjectlbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 380, -1));
 
         DueDatelbl1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         DueDatelbl1.setText("Due Date    :");
         DueDatelbl1.setPreferredSize(new java.awt.Dimension(110, 40));
-        DeleteTaskPnl.add(DueDatelbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 380, -1));
+        DeleteTaskPnl.add(DueDatelbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 380, -1));
 
         DueTime1.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         DueTime1.setText("Due Time    :");
         DueTime1.setPreferredSize(new java.awt.Dimension(110, 40));
-        DeleteTaskPnl.add(DueTime1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 380, -1));
+        DeleteTaskPnl.add(DueTime1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 380, -1));
 
         Prioritylbl1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Prioritylbl1.setText("Priority      :");
         Prioritylbl1.setPreferredSize(new java.awt.Dimension(98, 40));
-        DeleteTaskPnl.add(Prioritylbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 380, 40));
+        DeleteTaskPnl.add(Prioritylbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 380, 40));
 
         Statuslbl1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Statuslbl1.setText("Status        :");
-        DeleteTaskPnl.add(Statuslbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 380, 40));
+        DeleteTaskPnl.add(Statuslbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 380, 40));
+
+        DeleteBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/left.png"))); // NOI18N
+        DeleteBackBtn.setPreferredSize(new java.awt.Dimension(50, 50));
+        DeleteBackBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteBackBtnActionPerformed(evt);
+            }
+        });
+        DeleteTaskPnl.add(DeleteBackBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 400, -1, -1));
 
         DeleteTaskBtn.setBackground(new Color(40,40,40,128));
         DeleteTaskBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -380,20 +444,16 @@ public class TaskFrame extends javax.swing.JFrame {
                 DeleteTaskBtnActionPerformed(evt);
             }
         });
-        DeleteTaskPnl.add(DeleteTaskBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 375, -1, -1));
+        DeleteTaskPnl.add(DeleteTaskBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 405, -1, -1));
 
-        DeleteBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Back.png"))); // NOI18N
-        DeleteBackBtn.setPreferredSize(new java.awt.Dimension(50, 50));
-        DeleteBackBtn.addActionListener(new java.awt.event.ActionListener() {
+        DeleteNextBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/right.png"))); // NOI18N
+        DeleteNextBtn.setPreferredSize(new java.awt.Dimension(50, 50));
+        DeleteNextBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeleteBackBtnActionPerformed(evt);
+                DeleteNextBtnActionPerformed(evt);
             }
         });
-        DeleteTaskPnl.add(DeleteBackBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, -1, -1));
-
-        DeleteFowardBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Foward.png"))); // NOI18N
-        DeleteFowardBtn.setPreferredSize(new java.awt.Dimension(50, 50));
-        DeleteTaskPnl.add(DeleteFowardBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 370, -1, -1));
+        DeleteTaskPnl.add(DeleteNextBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 400, -1, -1));
 
         DeleteTaskBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/BACKGROUND.png"))); // NOI18N
         DeleteTaskBG.setToolTipText("");
@@ -464,7 +524,7 @@ public class TaskFrame extends javax.swing.JFrame {
         Statuslbl2.setText("Status        :");
         MarkDonePnl.add(Statuslbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 380, 40));
 
-        MarkDoneBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Back.png"))); // NOI18N
+        MarkDoneBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/left.png"))); // NOI18N
         MarkDoneBackBtn.setPreferredSize(new java.awt.Dimension(50, 50));
         MarkDonePnl.add(MarkDoneBackBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 400, -1, -1));
 
@@ -474,9 +534,9 @@ public class TaskFrame extends javax.swing.JFrame {
         MarkDoneBtn.setPreferredSize(new java.awt.Dimension(150, 40));
         MarkDonePnl.add(MarkDoneBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 405, -1, -1));
 
-        MarkDoneFowardBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Foward.png"))); // NOI18N
-        MarkDoneFowardBtn.setPreferredSize(new java.awt.Dimension(50, 50));
-        MarkDonePnl.add(MarkDoneFowardBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 400, -1, -1));
+        MarkDoneNextBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/right.png"))); // NOI18N
+        MarkDoneNextBtn.setPreferredSize(new java.awt.Dimension(50, 50));
+        MarkDonePnl.add(MarkDoneNextBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 400, -1, -1));
 
         MarkDoneBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/BACKGROUND.png"))); // NOI18N
         MarkDoneBG.setToolTipText("");
@@ -553,8 +613,6 @@ public class TaskFrame extends javax.swing.JFrame {
             clearInputFields();
             JOptionPane.showMessageDialog(this, "Task added and saved successfully!",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
-            
-            this.dispose();
 
         } catch (Exception e) {
             // Catch any potential errors and display an error message.
@@ -568,19 +626,19 @@ public class TaskFrame extends javax.swing.JFrame {
     private void AddTaskIcnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddTaskIcnMouseClicked
         // TODO add your handling code here:
         themeManager.showAddTaskPanel(AddTaskPnl, EditTaskPnl, DeleteTaskPnl, MarkDonePnl);
-        setPanel(AddTaskPnl, new Dimension(450, 500));
+        setPanel(AddTaskPnl, new Dimension(450, 550));
     }//GEN-LAST:event_AddTaskIcnMouseClicked
 
     private void EditTaskIcnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditTaskIcnMouseClicked
         // TODO add your handling code here:
         themeManager.showEditTaskPanel(AddTaskPnl, EditTaskPnl, DeleteTaskPnl, MarkDonePnl);
-        setPanel(EditTaskPnl, new Dimension(800, 500));
+        setPanel(EditTaskPnl, new Dimension(450, 550));
     }//GEN-LAST:event_EditTaskIcnMouseClicked
 
     private void DeleteTaskIcnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteTaskIcnMouseClicked
         // TODO add your handling code here:
         themeManager.showDeleteTaskPanel(AddTaskPnl, EditTaskPnl, DeleteTaskPnl, MarkDonePnl);
-        setPanel(DeleteTaskPnl, new Dimension(450, 550));
+        setPanel(DeleteTaskPnl, new Dimension(500, 550));
     }//GEN-LAST:event_DeleteTaskIcnMouseClicked
 
     private void MarkDoneTaskIcnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MarkDoneTaskIcnMouseClicked
@@ -588,10 +646,6 @@ public class TaskFrame extends javax.swing.JFrame {
         themeManager.showMarkDonePanel(AddTaskPnl, EditTaskPnl, DeleteTaskPnl, MarkDonePnl);
         setPanel(MarkDonePnl, new Dimension(450, 550));
     }//GEN-LAST:event_MarkDoneTaskIcnMouseClicked
-
-    private void EditTaskSearchFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditTaskSearchFldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EditTaskSearchFldActionPerformed
 
     private void EditTaskSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditTaskSearchBtnActionPerformed
         // TODO add your handling code here:
@@ -613,6 +667,10 @@ public class TaskFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_DeleteBackBtnActionPerformed
 
+    private void DeleteNextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteNextBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DeleteNextBtnActionPerformed
+
     private void MarkDoneSearchFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MarkDoneSearchFldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MarkDoneSearchFldActionPerformed
@@ -622,28 +680,10 @@ public class TaskFrame extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {}
     }//GEN-LAST:event_MarkDoneSearchFldKeyTyped
 
-    private void clearInputFields() {
-        TaskName.setText("");
-        Subject.setText("");
-        DateChooser.setDate(null);
-        HourChooser.setSelectedIndex(0);
-        MinuteChooser.setSelectedIndex(0);
-        PriorityChooser.setSelectedIndex(0);
-        StatusChooser.setSelectedIndex(0);
-    }
+    private void EditTaskSearchFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditTaskSearchFldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EditTaskSearchFldActionPerformed
 
-    private void setPanel(JPanel panelToShow, Dimension frameSize) {
-        AddTaskPnl.setVisible(false);
-        EditTaskPnl.setVisible(false);
-        DeleteTaskPnl.setVisible(false);
-        MarkDonePnl.setVisible(false);
-
-        panelToShow.setVisible(true);
-        this.setPreferredSize(frameSize);
-        this.setSize(frameSize);
-        this.pack();
-        this.setLocationRelativeTo(null);
-    }
     /**
      * @param args the command line arguments
      */
@@ -694,7 +734,7 @@ public class TaskFrame extends javax.swing.JFrame {
     private javax.swing.JLabel BG1;
     private com.toedter.calendar.JDateChooser DateChooser;
     private javax.swing.JButton DeleteBackBtn;
-    private javax.swing.JButton DeleteFowardBtn;
+    private javax.swing.JButton DeleteNextBtn;
     private javax.swing.JLabel DeleteTaskBG;
     private javax.swing.JButton DeleteTaskBtn;
     private javax.swing.JLabel DeleteTaskIcn;
@@ -706,16 +746,31 @@ public class TaskFrame extends javax.swing.JFrame {
     private javax.swing.JLabel DueTime;
     private javax.swing.JLabel DueTime1;
     private javax.swing.JLabel DueTime2;
+    private javax.swing.JButton EditBackBtn;
+    private javax.swing.JLabel EditDueDatelbl;
+    private javax.swing.JLabel EditDueTimelbl;
+    private javax.swing.JButton EditNextBtn;
+    private javax.swing.JLabel EditPrioritylbl;
+    private javax.swing.JLabel EditStatuslbl;
+    private javax.swing.JLabel EditSubjectlbl;
     private javax.swing.JButton EditTaskBtn;
+    private com.toedter.calendar.JDateChooser EditTaskDueDatelbl;
+    private javax.swing.JComboBox<String> EditTaskDueHourlbl;
+    private javax.swing.JComboBox<String> EditTaskDueMinutelbl;
+    private javax.swing.JLabel EditTaskIDlbl;
     private javax.swing.JLabel EditTaskIcn;
+    private javax.swing.JTextField EditTaskNamefld;
+    private javax.swing.JLabel EditTaskNamelbl;
     private javax.swing.JPanel EditTaskPnl;
+    private javax.swing.JComboBox<String> EditTaskPrioritylbl;
     private javax.swing.JButton EditTaskSearchBtn;
     private javax.swing.JTextField EditTaskSearchFld;
+    private javax.swing.JTextField EditTaskSubjectlbl;
     private javax.swing.JComboBox<String> HourChooser;
     private javax.swing.JLabel MarkDoneBG;
     private javax.swing.JButton MarkDoneBackBtn;
     private javax.swing.JButton MarkDoneBtn;
-    private javax.swing.JButton MarkDoneFowardBtn;
+    private javax.swing.JButton MarkDoneNextBtn;
     private javax.swing.JPanel MarkDonePnl;
     private javax.swing.JTextField MarkDoneSearchFld;
     private javax.swing.JLabel MarkDoneTaskIcn;
@@ -725,6 +780,7 @@ public class TaskFrame extends javax.swing.JFrame {
     private javax.swing.JLabel Prioritylbl1;
     private javax.swing.JLabel Prioritylbl2;
     private javax.swing.JComboBox<String> StatusChooser;
+    private javax.swing.JComboBox<String> StatusChooser1;
     private javax.swing.JLabel Statuslbl;
     private javax.swing.JLabel Statuslbl1;
     private javax.swing.JLabel Statuslbl2;
@@ -737,8 +793,7 @@ public class TaskFrame extends javax.swing.JFrame {
     private javax.swing.JLabel TaskNamelbl;
     private javax.swing.JLabel TaskNamelbl1;
     private javax.swing.JLabel TaskNamelbl2;
+    private javax.swing.JLabel Taskl1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

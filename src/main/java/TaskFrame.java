@@ -27,6 +27,8 @@ public class TaskFrame extends javax.swing.JFrame {
     ThemeManager themeManager = new ThemeManager();
     TaskManager taskManager = new TaskManager();
     FileHandler fileHandler = new FileHandler("txtFiles/data.txt");
+    private ArrayList<Task> taskList = fileHandler.readTaskFile();
+    private int currentIndex = 0;
 
     /**
      * Creates new form TaskFrame
@@ -42,14 +44,38 @@ public class TaskFrame extends javax.swing.JFrame {
         themeManager.transparentButton(MarkDoneBackBtn);
         themeManager.transparentButton(MarkDoneNextBtn);
 
+        taskManager.loadTasks(fileHandler);
+
+        // ... (rest of your existing constructor code)
+        showInitialTask();
+        
         /// Show AddTaskPnl by default
         setPanel(AddTaskPnl, new Dimension(450, 500));
         this.pack();
         
     }
     
-        private void clearTaskLabels() {
-        Taskl1.setText("Task ID       :  ");
+    private void updateTaskLabels(Task task){
+        TaskID1.setText("Task ID       : " + task.getTaskID());
+        TaskNamelbl1.setText("Task Name : " + task.getTaskName());
+        Subjectlbl1.setText("Subject       : " + task.getSubject());
+        DueDatelbl1.setText("Due Date    : " + task.getDueDate());
+        DueTime1.setText("Due Time    : " + task.getDueTime());
+        Prioritylbl1.setText("Priority      : " + task.getPriority());
+        Statuslbl1.setText("Status        : " + task.getStatus());
+    }
+    
+    private void showInitialTask() {
+        Task firstTask = taskManager.getCurrentTask();
+        if (firstTask != null) {
+            updateTaskLabels(firstTask);
+        } else {
+            clearTaskLabels();
+        }
+    }
+
+    private void clearTaskLabels() {
+        TaskID1.setText("Task ID       :  ");
         TaskNamelbl1.setText("Task Name :  ");
         Subjectlbl1.setText("Subject       :  ");
         DueDatelbl1.setText("Due Date    :  ");
@@ -132,7 +158,7 @@ public class TaskFrame extends javax.swing.JFrame {
         DeleteTaskIcn = new javax.swing.JLabel();
         DeleteTaskPnl = new javax.swing.JPanel();
         DeleteTaskSearchFld = new javax.swing.JTextField();
-        Taskl1 = new javax.swing.JLabel();
+        TaskID1 = new javax.swing.JLabel();
         TaskNamelbl1 = new javax.swing.JLabel();
         Subjectlbl1 = new javax.swing.JLabel();
         DueDatelbl1 = new javax.swing.JLabel();
@@ -345,6 +371,11 @@ public class TaskFrame extends javax.swing.JFrame {
 
         EditBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/left.png"))); // NOI18N
         EditBackBtn.setPreferredSize(new java.awt.Dimension(40, 40));
+        EditBackBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditBackBtnActionPerformed(evt);
+            }
+        });
         EditTaskPnl.add(EditBackBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 470, -1, -1));
 
         EditTaskBtn.setBackground(new Color(40,40,40,128));
@@ -360,6 +391,11 @@ public class TaskFrame extends javax.swing.JFrame {
 
         EditNextBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/right.png"))); // NOI18N
         EditNextBtn.setPreferredSize(new java.awt.Dimension(40, 40));
+        EditNextBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditNextBtnActionPerformed(evt);
+            }
+        });
         EditTaskPnl.add(EditNextBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 470, -1, -1));
 
         BG1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/BACKGROUND.png"))); // NOI18N
@@ -385,17 +421,12 @@ public class TaskFrame extends javax.swing.JFrame {
         DeleteTaskSearchFld.setForeground(new java.awt.Color(255, 255, 255));
         DeleteTaskSearchFld.setToolTipText("Search");
         DeleteTaskSearchFld.setPreferredSize(new java.awt.Dimension(150, 30));
-        DeleteTaskSearchFld.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeleteTaskSearchFldActionPerformed(evt);
-            }
-        });
         DeleteTaskPnl.add(DeleteTaskSearchFld, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 10, -1, -1));
 
-        Taskl1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        Taskl1.setText("Task ID       :");
-        Taskl1.setPreferredSize(new java.awt.Dimension(300, 40));
-        DeleteTaskPnl.add(Taskl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+        TaskID1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        TaskID1.setText("Task ID       :");
+        TaskID1.setPreferredSize(new java.awt.Dimension(300, 40));
+        DeleteTaskPnl.add(TaskID1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
 
         TaskNamelbl1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         TaskNamelbl1.setText("Task Name :");
@@ -428,31 +459,16 @@ public class TaskFrame extends javax.swing.JFrame {
 
         DeleteBackBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/left.png"))); // NOI18N
         DeleteBackBtn.setPreferredSize(new java.awt.Dimension(50, 50));
-        DeleteBackBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeleteBackBtnActionPerformed(evt);
-            }
-        });
         DeleteTaskPnl.add(DeleteBackBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 400, -1, -1));
 
         DeleteTaskBtn.setBackground(new Color(40,40,40,128));
         DeleteTaskBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         DeleteTaskBtn.setText("DELETE TASK");
         DeleteTaskBtn.setPreferredSize(new java.awt.Dimension(150, 40));
-        DeleteTaskBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeleteTaskBtnActionPerformed(evt);
-            }
-        });
         DeleteTaskPnl.add(DeleteTaskBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 405, -1, -1));
 
         DeleteNextBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/right.png"))); // NOI18N
         DeleteNextBtn.setPreferredSize(new java.awt.Dimension(50, 50));
-        DeleteNextBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeleteNextBtnActionPerformed(evt);
-            }
-        });
         DeleteTaskPnl.add(DeleteNextBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 400, -1, -1));
 
         DeleteTaskBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/BACKGROUND.png"))); // NOI18N
@@ -655,22 +671,6 @@ public class TaskFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_EditTaskBtnActionPerformed
 
-    private void DeleteTaskSearchFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteTaskSearchFldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DeleteTaskSearchFldActionPerformed
-
-    private void DeleteTaskBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteTaskBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DeleteTaskBtnActionPerformed
-
-    private void DeleteBackBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteBackBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DeleteBackBtnActionPerformed
-
-    private void DeleteNextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteNextBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DeleteNextBtnActionPerformed
-
     private void MarkDoneSearchFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MarkDoneSearchFldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MarkDoneSearchFldActionPerformed
@@ -683,6 +683,36 @@ public class TaskFrame extends javax.swing.JFrame {
     private void EditTaskSearchFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditTaskSearchFldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_EditTaskSearchFldActionPerformed
+
+    private void EditNextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditNextBtnActionPerformed
+        // TODO add your handling code here:
+        Task nextTask = taskManager.getNextTask();
+        showInitialTask();
+        Task task = null;
+
+        if (nextTask != null) {
+            // Update the display with the task returned by TaskManager
+
+            clearTaskLabels();
+        EditTaskIDlbl.setText("Task ID       : " + task.getTaskID());
+        EditTaskNamefld.setText("Task Name : " + task.getTaskName());
+        EditTaskSubjectlbl.setText("Subject       : " + task.getSubject());
+        DueDatelbl1.setText("Due Date    : " + task.getDueDate());
+        DueTime1.setText("Due Time    : " + task.getDueTime());
+        Prioritylbl1.setText("Priority      : " + task.getPriority());
+        Statuslbl1.setText("Status        : " + task.getStatus());
+            System.out.println("Gay");
+        } else {
+            // The error message you're seeing
+            JOptionPane.showMessageDialog(this, "No more tasks to display.",
+                    "End of List", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_EditNextBtnActionPerformed
+
+    private void EditBackBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditBackBtnActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_EditBackBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -789,11 +819,11 @@ public class TaskFrame extends javax.swing.JFrame {
     private javax.swing.JLabel Subjectlbl1;
     private javax.swing.JLabel Subjectlbl2;
     private javax.swing.JLabel TaskFrameBG;
+    private javax.swing.JLabel TaskID1;
     private javax.swing.JTextField TaskName;
     private javax.swing.JLabel TaskNamelbl;
     private javax.swing.JLabel TaskNamelbl1;
     private javax.swing.JLabel TaskNamelbl2;
-    private javax.swing.JLabel Taskl1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

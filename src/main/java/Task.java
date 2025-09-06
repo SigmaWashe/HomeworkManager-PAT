@@ -53,10 +53,18 @@ public class Task {
 
    }
     public int getTaskID() { return taskID; }
+
     public String getTaskName() { return taskName; }
+    public void setTaskName(String inTaskName) { this.taskName = inTaskName; }
+
     public String getSubject() { return subject; }
+    public void setSubject(String subject) { this.subject = subject; }
+
     public LocalDate getDueDate() { return dueDate; }
+    public void setDueDate(LocalDate inDate) { this.dueDate = inDate; }
+
     public LocalTime getDueTime() { return dueTime; }
+    public void setDueTime(LocalTime inTime) { this.dueTime = inTime; }
 
     public String getPriority() { return priority; }
     public void setPriority(String inPriority) { this.priority = inPriority; }

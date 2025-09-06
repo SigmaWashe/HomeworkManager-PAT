@@ -126,6 +126,52 @@ public class TaskManager {
 
         return new int[]{total, completed, pending, overdue};
     }
+    
+    public Task getNextTask() {
+        if (taskList.isEmpty()) {
+            return null; // No tasks to display.
+        }
+
+        // Increment the index. If it goes past the end, reset to 0.
+        if (currentTaskIndex >= taskList.size() - 1) {
+            currentTaskIndex = 0;
+        } else {
+            currentTaskIndex++;
+        }
+
+        return taskList.get(currentTaskIndex);
+    }
+
+    // You also need a method to get the previous task
+    public Task getPreviousTask() {
+        if (taskList.isEmpty()) {
+            return null;
+        }
+
+        // Wrap around to the start if we are at the first task.
+        if (currentTaskIndex <= 0) {
+            currentTaskIndex = taskList.size() - 1;
+        } else {
+            currentTaskIndex--;
+        }
+        return taskList.get(currentTaskIndex);
+    }
+
+    // A method to get the currently selected task
+    public Task getCurrentTask() {
+        if (taskList.isEmpty() || currentTaskIndex == -1) {
+            return null;
+        }
+        return taskList.get(currentTaskIndex);
+    }
+
+    // Add this method to load tasks from your file
+    public void loadTasks(FileHandler fileHandler) {
+        this.taskList = fileHandler.readTaskFile();
+        if (!taskList.isEmpty()) {
+            currentTaskIndex = 0; // Set initial task to the first one in the list
+        }
+    }
 
     public ArrayList<Task> getTaskList() {
         return taskList;

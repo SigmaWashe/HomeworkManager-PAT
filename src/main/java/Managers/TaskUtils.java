@@ -5,12 +5,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class TaskUtils {
-
-    // Method to convert Date to formatted LocalDate string (dd MM yyyy)
+    /**
+     * Method to convert Date to formatted LocalDate string (dd MM yyyy)
+     * @param dueDate
+     * @return
+     */
     public static String formatDate(Date dueDate) {
         // Check if the input Date is null
         if (dueDate == null) {
-            return "No date selected"; // Or you could throw an exception, depending on your needs
+            return "No date selected";
         }
 
         // Convert Date to LocalDate
@@ -21,7 +24,12 @@ public class TaskUtils {
         return localDueDate.format(formatter);
     }
 
-    // Method to format time separately as "HH:mm"
+    /**
+     * Method to format time as "HH:mm"
+     * @param hour
+     * @param minute
+     * @return
+     */
     public static String formatTime(String hour, String minute) {
         // Convert hour and minute to LocalTime
         LocalTime localTime = LocalTime.of(Integer.parseInt(hour), Integer.parseInt(minute));

@@ -5,6 +5,13 @@ import java.awt.*;
 
 public class LightTheme {
 
+    /**
+     * Sets the background of panels to that of the light theme
+     * @param dashBG
+     * @param homeworkBG
+     * @param progBG
+     * @param settingsBG
+     */
     public void BackgroundLightTheme(JLabel dashBG, JLabel homeworkBG, JLabel progBG, JLabel settingsBG){
         dashBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LightThemeIcons/BACKGROUND.png")));
         homeworkBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LightThemeIcons/BACKGROUND.png")));
@@ -12,12 +19,29 @@ public class LightTheme {
         settingsBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LightThemeIcons/BACKGROUND.png")));
     }
 
+    /**
+     * Sets the labels in the DASHBOARD panel to LIGHT theme
+     * @param todaysTaskLbl
+     * @param upcomingTaskLbl
+     * @param progSummaryLbl
+     */
     public void DashboardLightTheme(JLabel todaysTaskLbl, JLabel upcomingTaskLbl, JLabel progSummaryLbl){
         todaysTaskLbl.setForeground( new Color(204, 204, 204));
         upcomingTaskLbl.setForeground( new Color(204, 204, 204));
         progSummaryLbl.setForeground( new Color(204, 204, 204));
     }
 
+    /**
+     * Sets the labels in the PROGRESS panel to LIGHT theme
+     * @param completeLbl
+     * @param pendingLbl
+     * @param overdueLbl
+     * @param pieChartPnl
+     * @param progSumLbl
+     * @param progCompleteLbl
+     * @param progPendingLbl
+     * @param progSumOverdue
+     */
     public void ProgressLightTheme(JLabel completeLbl, JLabel pendingLbl, JLabel overdueLbl, JPanel pieChartPnl,
                                   JLabel progSumLbl, JLabel progCompleteLbl, JLabel progPendingLbl, JLabel progSumOverdue){
         completeLbl.setForeground( new Color(204, 204, 204));
@@ -30,6 +54,13 @@ public class LightTheme {
         progSumOverdue.setForeground( new Color(204, 204, 204));
     }
 
+    /**
+     * Sets the labels in the SETTINGS panel to LIGHT theme
+     * @param nameLbl
+     * @param schoolLbl
+     * @param gradeLbl
+     * @param themeLbl
+     */
     public void SettingsLightTheme(JLabel nameLbl, JLabel schoolLbl, JLabel gradeLbl, JLabel themeLbl/*, JButton saveChangeBtn, JButton applyChangeBtn*/){
         nameLbl.setForeground( new Color(204, 204, 204));
         schoolLbl.setForeground( new Color(204, 204, 204));

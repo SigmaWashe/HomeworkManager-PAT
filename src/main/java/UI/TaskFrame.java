@@ -31,7 +31,7 @@ public class TaskFrame extends javax.swing.JFrame {
 
     ThemeManager themeManager = new ThemeManager();
     TaskManager taskManager = new TaskManager();
-    FileHandler fileHandler = new FileHandler("txtFiles/data.txt");
+    FileHandler fileHandler = new FileHandler("txtFiles/Tasks.txt");
     ArrayList<Task> tasks = fileHandler.readTaskFile();
 
 
@@ -45,52 +45,68 @@ public class TaskFrame extends javax.swing.JFrame {
         
         themeManager.transparentButton(EditTaskSearchBtn);
         themeManager.transparentButton(DeleteTaskSearchBtn);
+        themeManager.transparentButton(MarkDoneBtn);
         
         /// Show AddTaskPnl by default
         setPanel(AddTaskPnl, new Dimension(450, 500));
         this.pack();
         
     }
-    
-    /*private void updateTaskLabels(Task task){
-        TaskID1.setText("Task ID       : " + task.getTaskID());
-        TaskNamelbl1.setText("Task Name : " + task.getTaskName());
-        Subjectlbl1.setText("Subject       : " + task.getSubject());
-        DueDatelbl1.setText("Due Date    : " + task.getDueDate());
-        DueTime1.setText("Due Time    : " + task.getDueTime());
-        Prioritylbl1.setText("Priority      : " + task.getPriority());
-        Statuslbl1.setText("Status        : " + task.getStatus());
-    }*/
-    
-    
 
-    private void clearTaskLabels() {
-        TaskID1.setText("Task ID       :  ");
-        TaskNamelbl1.setText("Task Name :  ");
-        Subjectlbl1.setText("Subject       :  ");
-        DueDatelbl1.setText("Due Date    :  ");
-        DueTime1.setText("Due Time    :  ");
-        Prioritylbl1.setText("Priority      :  ");
-        Statuslbl1.setText("Status        :  ");
+    /**
+     * Clears the task labels on the panel
+     * @param taskIDlbl
+     * @param taskNamelbl
+     * @param subjectlbl
+     * @param dueDatelbl
+     * @param dueTimelbl
+     * @param prioritylbl
+     * @param statuslbl
+     */
+    private void clearTaskLabels(JLabel taskIDlbl, JLabel taskNamelbl, JLabel subjectlbl, JLabel dueDatelbl,
+                                 JLabel dueTimelbl, JLabel prioritylbl, JLabel statuslbl) {
+        taskIDlbl.setText("Task ID       :  ");
+        taskNamelbl.setText("Task Name :  ");
+        subjectlbl.setText("Subject       :  ");
+        dueDatelbl.setText("Due Date    :  ");
+        dueTimelbl.setText("Due Time    :  ");
+        prioritylbl.setText("Priority      :  ");
+        statuslbl.setText("Status        :  ");
     }
 
-    private void clearInputFields() {
-        TaskName.setText("");
-        Subject.setText("");
-        EditDueDate.setDate(null);
-        HourChooser.setSelectedIndex(0);
-        MinuteChooser.setSelectedIndex(0);
-        PriorityChooser.setSelectedIndex(0);
-        StatusChooser.setSelectedIndex(0);
+    /**
+     * Clears the input fields on the panel
+     * @param taskName
+     * @param subject
+     * @param dateChooser
+     * @param hourChooser
+     * @param minuteChooser
+     * @param priorityChooser
+     * @param statusChooser
+     */
+    private void clearInputFields(JTextField taskName, JTextField subject, JDateChooser dateChooser, JComboBox hourChooser,
+                                  JComboBox minuteChooser, JComboBox priorityChooser, JComboBox statusChooser) {
+        taskName.setText("");
+        subject.setText("");
+        dateChooser.setDate(null);
+        hourChooser.setSelectedIndex(0);
+        minuteChooser.setSelectedIndex(0);
+        priorityChooser.setSelectedIndex(0);
+        statusChooser.setSelectedIndex(0);
     }
 
-    private void setPanel(JPanel panelToShow, Dimension frameSize) {
+    /**
+     * Sets the selected panel visible
+     * @param visblePanel
+     * @param frameSize
+     */
+    private void setPanel(JPanel visblePanel, Dimension frameSize) {
         AddTaskPnl.setVisible(false);
         EditTaskPnl.setVisible(false);
         DeleteTaskPnl.setVisible(false);
         MarkDonePnl.setVisible(false);
 
-        panelToShow.setVisible(true);
+        visblePanel.setVisible(true);
         this.setPreferredSize(frameSize);
         this.setSize(frameSize);
         this.pack();
@@ -112,7 +128,7 @@ public class TaskFrame extends javax.swing.JFrame {
         Subjectlbl = new javax.swing.JLabel();
         Subject = new javax.swing.JTextField();
         DueDatelbl = new javax.swing.JLabel();
-        EditDueDate = new com.toedter.calendar.JDateChooser();
+        DueDate = new com.toedter.calendar.JDateChooser();
         DueTime = new javax.swing.JLabel();
         HourChooser = new javax.swing.JComboBox<>();
         MinuteChooser = new javax.swing.JComboBox<>();
@@ -130,7 +146,7 @@ public class TaskFrame extends javax.swing.JFrame {
         EditTaskNamelbl = new javax.swing.JLabel();
         EditTaskSubjectfld = new javax.swing.JTextField();
         EditSubjectlbl = new javax.swing.JLabel();
-        EditTaskDueDatelbl = new com.toedter.calendar.JDateChooser();
+        EditTaskDueDate = new com.toedter.calendar.JDateChooser();
         EditDueDatelbl = new javax.swing.JLabel();
         EditTaskDueHour = new javax.swing.JComboBox<>();
         EditTaskDueMinute = new javax.swing.JComboBox<>();
@@ -202,9 +218,9 @@ public class TaskFrame extends javax.swing.JFrame {
         DueDatelbl.setPreferredSize(new java.awt.Dimension(110, 40));
         AddTaskPnl.add(DueDatelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 125, 110, -1));
 
-        EditDueDate.setToolTipText("Date : dd/MM/yyyy");
-        EditDueDate.setMinSelectableDate(new java.util.Date(1577829600000L));
-        AddTaskPnl.add(EditDueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 125, 210, 40));
+        DueDate.setToolTipText("Date : dd/MM/yyyy");
+        DueDate.setMinSelectableDate(new java.util.Date(1577829600000L));
+        AddTaskPnl.add(DueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 125, 210, 40));
 
         DueTime.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         DueTime.setText("Due Time    :");
@@ -298,9 +314,9 @@ public class TaskFrame extends javax.swing.JFrame {
         EditSubjectlbl.setPreferredSize(new java.awt.Dimension(300, 40));
         EditTaskPnl.add(EditSubjectlbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
 
-        EditTaskDueDatelbl.setToolTipText("Date : dd/MM/yyyy");
-        EditTaskDueDatelbl.setMinSelectableDate(new java.util.Date(1577829600000L));
-        EditTaskPnl.add(EditTaskDueDatelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 190, 40));
+        EditTaskDueDate.setToolTipText("Date : dd/MM/yyyy");
+        EditTaskDueDate.setMinSelectableDate(new java.util.Date(1577829600000L));
+        EditTaskPnl.add(EditTaskDueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 190, 40));
 
         EditDueDatelbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         EditDueDatelbl.setText("Due Date    :");
@@ -496,6 +512,11 @@ public class TaskFrame extends javax.swing.JFrame {
         MarkDoneBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         MarkDoneBtn.setText("Mark Done");
         MarkDoneBtn.setPreferredSize(new java.awt.Dimension(150, 40));
+        MarkDoneBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MarkDoneBtnActionPerformed(evt);
+            }
+        });
         MarkDonePnl.add(MarkDoneBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 405, -1, -1));
 
         MarkDoneBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/BACKGROUND.png"))); // NOI18N
@@ -582,7 +603,7 @@ public class TaskFrame extends javax.swing.JFrame {
             }
 
             // Get and validate the due date.
-            Date dueDate = EditDueDate.getDate();
+            Date dueDate = DueDate.getDate();
             if (dueDate == null) {
                 JOptionPane.showMessageDialog(this, "Please select a due date.",
                         "Input Error", JOptionPane.ERROR_MESSAGE);
@@ -617,7 +638,7 @@ public class TaskFrame extends javax.swing.JFrame {
             // Write the entire updated task list to the file
             fileHandler.writeToTaskFile(taskManager.getTaskList());
 
-            clearInputFields();
+            clearInputFields(TaskName, Subject, DueDate, HourChooser, MinuteChooser, PriorityChooser, StatusChooser);
             JOptionPane.showMessageDialog(this, "Task added and saved successfully!",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
 
@@ -656,8 +677,9 @@ public class TaskFrame extends javax.swing.JFrame {
 
     private void EditTaskSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditTaskSearchBtnActionPerformed
         // TODO add your handling code here:
-        clearInputFields();
-        clearTaskLabels();
+        clearInputFields(TaskName, Subject, DueDate, EditTaskDueHour, EditTaskDueMinute,
+                            EditTaskPriority, EditTaskStatus);
+        clearTaskLabels(EditTaskIDlbl, EditTaskNamelbl, EditSubjectlbl, EditDueDatelbl, EditDueTimelbl, EditPrioritylbl, EditStatuslbl);
         String searchKeyword = EditTaskSearchFld.getText();
 
         try {
@@ -671,7 +693,7 @@ public class TaskFrame extends javax.swing.JFrame {
                 EditTaskNamefld.setText(foundTask.getTaskName());
                 EditTaskSubjectfld.setText(foundTask.getSubject());
                 if (foundTask.getDueDate() != null) {
-                    EditDueDate.setDate(java.sql.Date.valueOf(foundTask.getDueDate()));
+                    DueDate.setDate(java.sql.Date.valueOf(foundTask.getDueDate()));
                 }
                 if (foundTask.getDueTime() != null) {
                     String hour = String.format("%02d", foundTask.getDueTime().getHour());
@@ -712,7 +734,7 @@ public class TaskFrame extends javax.swing.JFrame {
             }
 
             // Get and validate the due date.
-            Date dueDate = EditDueDate.getDate();
+            Date dueDate = DueDate.getDate();
             // The following line is causing the error. It should be removed.
             // dueDate = taskManager.setDueDate();
             if (dueDate == null) {
@@ -748,9 +770,10 @@ public class TaskFrame extends javax.swing.JFrame {
             taskManager.editTask(taskID, updatedTask);
 
             // Write the entire updated task list to the file
-            fileHandler.overwriteTaskFile(taskManager.getTaskList());
+            fileHandler.writeToTaskFile(taskManager.getTaskList());
 
-            clearInputFields();
+            clearInputFields(EditTaskNamefld, EditTaskSubjectfld, DueDate, EditTaskDueHour, EditTaskDueMinute,
+                             EditTaskPriority, EditTaskStatus);
             JOptionPane.showMessageDialog(this, "Task edited and saved successfully!",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
 
@@ -769,8 +792,7 @@ public class TaskFrame extends javax.swing.JFrame {
 
     private void DeleteTaskSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteTaskSearchBtnActionPerformed
         // TODO add your handling code here:
-        clearInputFields();
-        clearTaskLabels();
+        clearTaskLabels(TaskID1, TaskNamelbl1, Subjectlbl1, DueDatelbl1, DueTime1, Prioritylbl1, Statuslbl1);
         String searchKeyword = DeleteTaskSearchFld.getText();
 
         try {
@@ -805,29 +827,21 @@ public class TaskFrame extends javax.swing.JFrame {
     private void DeleteTaskBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteTaskBtnActionPerformed
         // TODO add your handling code here:
         try {
-            // Get the task ID from the label.
             int taskID = Integer.parseInt(TaskID1.getText().replaceAll("\\D+", ""));
 
-            // Delete the task from the in-memory list and check if it was successful.
             if (taskManager.deleteTask(taskID)) {
-                // Overwrite the file with the updated task list to make the change permanent.
-                fileHandler.overwriteTaskFile(taskManager.getTaskList());
-
-                // Provide success feedback to the user.
+                fileHandler.writeToTaskFile(taskManager.getTaskList());
                 JOptionPane.showMessageDialog(this, "Task deleted successfully!",
                         "Success", JOptionPane.INFORMATION_MESSAGE);
-                clearTaskLabels();
+                clearTaskLabels(TaskID1, TaskNamelbl1, Subjectlbl1, DueDatelbl1, DueTime1, Prioritylbl1, Statuslbl1);
             } else {
-                // Provide feedback if the task was not found.
                 JOptionPane.showMessageDialog(this, "Task with ID " + taskID + " not found.",
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException e) {
-            // Provide a specific error message if the ID is not a valid number.
             JOptionPane.showMessageDialog(this, "Please select a valid task to delete.",
                     "Input Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            // Catch any other general errors.
             JOptionPane.showMessageDialog(this, "Error while deleting task: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
@@ -841,9 +855,7 @@ public class TaskFrame extends javax.swing.JFrame {
 
     private void MarkDoneSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MarkDoneSearchBtnActionPerformed
         // TODO add your handling code here:
-        clearInputFields();
-        clearTaskLabels();
-        String searchKeyword = DeleteTaskSearchFld.getText();
+        String searchKeyword = MarkDoneSearchFld.getText();
 
         try {
             ArrayList<Task> results = taskManager.searchTask(searchKeyword);
@@ -856,11 +868,9 @@ public class TaskFrame extends javax.swing.JFrame {
                 TaskNamelbl2.setText("Task Name : " + foundTask.getTaskName());
                 Subjectlbl2.setText("Subject       : " + foundTask.getSubject());
 
-                // Correct way to format and set the due date label
                 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
                 DueDatelbl2.setText("Due Date    : " + foundTask.getDueDate().format(dateFormatter));
 
-                // Correct way to format and set the due time label
                 DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
                 DueTime2.setText("Due Time    : " + foundTask.getDueTime().format(timeFormatter));
 
@@ -878,6 +888,29 @@ public class TaskFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         MarkDoneSearchBtnActionPerformed(evt);
     }//GEN-LAST:event_MarkDoneSearchFldActionPerformed
+
+    private void MarkDoneBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MarkDoneBtnActionPerformed
+        // TODO add your handling code here:
+        try {
+            int taskID = Integer.parseInt(TaskID2.getText().replaceAll("\\D+", ""));
+
+            if (taskManager.markTaskDone(taskID)) {
+                fileHandler.writeToTaskFile(taskManager.getTaskList());
+                JOptionPane.showMessageDialog(this,
+                        "Task completed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                clearTaskLabels(TaskID1, TaskNamelbl1, Subjectlbl1, DueDatelbl1, DueTime1, Prioritylbl1, Statuslbl1);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Task with ID " + taskID + " not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Please select a valid task to mark completed.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error while completing task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_MarkDoneBtnActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -910,20 +943,20 @@ public class TaskFrame extends javax.swing.JFrame {
     private javax.swing.JPanel DeleteTaskPnl;
     private javax.swing.JButton DeleteTaskSearchBtn;
     private javax.swing.JTextField DeleteTaskSearchFld;
+    private com.toedter.calendar.JDateChooser DueDate;
     private javax.swing.JLabel DueDatelbl;
     private javax.swing.JLabel DueDatelbl1;
     private javax.swing.JLabel DueDatelbl2;
     private javax.swing.JLabel DueTime;
     private javax.swing.JLabel DueTime1;
     private javax.swing.JLabel DueTime2;
-    private com.toedter.calendar.JDateChooser EditDueDate;
     private javax.swing.JLabel EditDueDatelbl;
     private javax.swing.JLabel EditDueTimelbl;
     private javax.swing.JLabel EditPrioritylbl;
     private javax.swing.JLabel EditStatuslbl;
     private javax.swing.JLabel EditSubjectlbl;
     private javax.swing.JButton EditTaskBtn;
-    private com.toedter.calendar.JDateChooser EditTaskDueDatelbl;
+    private com.toedter.calendar.JDateChooser EditTaskDueDate;
     private javax.swing.JComboBox<String> EditTaskDueHour;
     private javax.swing.JComboBox<String> EditTaskDueMinute;
     private javax.swing.JLabel EditTaskIDlbl;

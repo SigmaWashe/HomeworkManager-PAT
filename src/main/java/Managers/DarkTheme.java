@@ -9,6 +9,13 @@ import java.util.logging.*;
 
 public class DarkTheme {
 
+    /**
+     * Sets the background of panels to that of the DARK theme
+     * @param dashBG
+     * @param homeworkBG
+     * @param progBG
+     * @param settingsBG
+     */
     public void BackgroundDarkTheme(JLabel dashBG, JLabel homeworkBG, JLabel progBG, JLabel settingsBG){
         dashBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/darkThemeIcons/DarkBG.png")));
         homeworkBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/darkThemeIcons/DarkBG.png")));
@@ -16,12 +23,29 @@ public class DarkTheme {
         settingsBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/darkThemeIcons/DarkBG.png")));
     }
 
+    /**
+     * Sets the labels in the DASHBOARD panel to DARK theme
+     * @param todaysTaskLbl
+     * @param upcomingTaskLbl
+     * @param progSummaryLbl
+     */
     public void DashboardDarkTheme(JLabel todaysTaskLbl, JLabel upcomingTaskLbl, JLabel progSummaryLbl){
         todaysTaskLbl.setForeground( new Color(31, 30, 38));
         upcomingTaskLbl.setForeground( new Color(31, 30, 38));
         progSummaryLbl.setForeground( new Color(31, 30, 38));
     }
 
+    /**
+     * Sets the labels in the PROGRESS panel to DARK theme
+     * @param completeLbl
+     * @param pendingLbl
+     * @param overdueLbl
+     * @param pieChartPnl
+     * @param progSumLbl
+     * @param progCompleteLbl
+     * @param progPendingLbl
+     * @param progSumOverdue
+     */
     public void ProgressDarkTheme(JLabel completeLbl, JLabel pendingLbl, JLabel overdueLbl, JPanel pieChartPnl,
                                    JLabel progSumLbl, JLabel progCompleteLbl, JLabel progPendingLbl, JLabel progSumOverdue){
         completeLbl.setForeground( new Color(31, 30, 38));
@@ -34,6 +58,13 @@ public class DarkTheme {
         progSumOverdue.setForeground( new Color(31, 30, 38));
     }
 
+    /**
+     * Sets the labels in the SETTINGS panel to DARK theme
+     * @param nameLbl
+     * @param schoolLbl
+     * @param gradeLbl
+     * @param themeLbl
+     */
     public void SettingsDarkTheme(JLabel nameLbl, JLabel schoolLbl, JLabel gradeLbl, JLabel themeLbl/*, JButton saveChangeBtn, JButton applyChangeBtn*/){
         nameLbl.setForeground( new Color(31, 30, 38));
         schoolLbl.setForeground( new Color(31, 30, 38));

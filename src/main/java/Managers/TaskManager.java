@@ -9,16 +9,27 @@ import java.util.*;
 
 public class TaskManager {
 
-    private ArrayList<Task> taskList;
-    private FileHandler fileHandler = new FileHandler("txtFiles/data.txt");
+    // Variables for the task manager
+    private ArrayList<Task> taskList; // All the tasks in an ArrayList
+    private FileHandler fileHandler = new FileHandler("txtFiles/Tasks.txt"); // Reads the tasks
 
+    //Constructor
     public TaskManager(){
         taskList = new ArrayList<>();
-        taskList.addAll(fileHandler.readTaskFile());
+        taskList.addAll(fileHandler.readTaskFile()); // Adds all the tasks from the task file to the array
     }
 
+    /**
+     * Adds task to the text file and array
+     * @param t
+     */
     public void addTask(Task t){ taskList.add(t); }
 
+    /**
+     * Edits the task that the user has searched
+     * @param taskID
+     * @param updatedTask
+     */
     public void editTask(int taskID, Task updatedTask){
         for (int i = 0; i < taskList.size(); i++) {
             if (taskList.get(i).getTaskID() == taskID) {
@@ -27,6 +38,25 @@ public class TaskManager {
         }
     }
 
+    /**
+     * Marks the task done and sets the STATUS of the task to COMPLETE
+     * @param taskID
+     */
+    public boolean markTaskDone(int taskID) {
+        for (Task task : taskList) {
+            if (task.getTaskID() == taskID) {
+                task.setStatus("COMPLETE");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Deletes the task from the task file
+     * @param taskID
+     * @return
+     */
     public boolean deleteTask(int taskID) {
         for (int i = 0; i < taskList.size(); i++) {
             if (taskList.get(i).getTaskID() == taskID) {
@@ -37,76 +67,39 @@ public class TaskManager {
         return false;
     }
 
+    /**
+     * Searches for the task by using a keyword
+     * It will first search by looking for a matching taskID
+     * Then it will search by looking for a matching taskName
+     * Then it will search by looking for a matching subject
+     * @param keyword
+     * @return
+     */
     public ArrayList<Task> searchTask(String keyword) {
         ArrayList<Task> searchResults = new ArrayList<>();
         String searchKeyword = keyword.toUpperCase();
 
         for (Task task : taskList) {
-            // Try to parse as int for task ID search
             try {
-                // Match by task name or subject, case-insensitive
+                int id = Integer.parseInt(keyword);
+                if (task.getTaskID() == id) {
+                    searchResults.add(task);
+                    break;
+                }
                 if (task.getTaskName().toUpperCase().contains(searchKeyword) ||
                         task.getSubject().toUpperCase().contains(keyword)) {
                     searchResults.add(task);
                 }
-                int id = Integer.parseInt(keyword);
-                if (task.getTaskID() == id) {
-                    searchResults.add(task);
-                    continue; // Skip other checks if matched by ID
-                }
-            } catch (NumberFormatException e) {
-                // Not an int, continue to string match
-            }
+            } catch (NumberFormatException e) { }
 
         }
         return searchResults;
     }
 
-    public ArrayList<Task> filterTasks(String period, String subject) {
-        ArrayList<Task> filteredList = new ArrayList<>();
-        LocalDate today = LocalDate.now();
-
-        for (Task task : taskList) {
-            boolean matchesPeriod = false;
-            boolean matchesSubject = subject.equals("All") || task.getSubject().equalsIgnoreCase(subject);
-
-            if (period.equals("All")) {
-                matchesPeriod = true;
-            } else if (period.equals("Today") && task.getDueDate().isEqual(today)) {
-                matchesPeriod = true;
-            } else if (period.equals("Upcoming") && task.getDueDate().isAfter(today)) {
-                matchesPeriod = true;
-            }
-
-            if (matchesPeriod && matchesSubject) {
-                filteredList.add(task);
-            }
-        }
-        return filteredList;
-    }
-
-    public ArrayList<Task> getTodaysTasks() {
-        LocalDate today = LocalDate.now();
-        ArrayList<Task> todaysTasks = new ArrayList<>();
-        for (Task task : taskList) {
-            if (task.getDueDate().isEqual(today)) {
-                todaysTasks.add(task);
-            }
-        }
-        return todaysTasks;
-    }
-
-    public ArrayList<Task> getUpcomingTasks() {
-        LocalDate today = LocalDate.now();
-        ArrayList<Task> upcomingTasks = new ArrayList<>();
-        for (Task task : taskList) {
-            if (task.getDueDate().isAfter(today)) {
-                upcomingTasks.add(task);
-            }
-        }
-        return upcomingTasks;
-    }
-
+    /**
+     *
+     * @return The Progress Summary of the user
+     */
     public int[] getProgressSummary() {
         int total = taskList.size();
         int completed = 0;
@@ -132,21 +125,10 @@ public class TaskManager {
         return new int[]{total, completed, pending, overdue};
     }
 
+    /**
+     *
+     * @return The task List
+     */
     public ArrayList<Task> getTaskList() { return taskList; }
-
-    public void addSearchListeners(JFrame frame, JButton searchBtn, JTextField usernameField, String keyword) {
-        KeyAdapter keyHandler = new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    searchTask(keyword);
-                } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    frame.dispose();
-                }
-            }
-        };
-
-        searchBtn.addKeyListener(keyHandler);
-        usernameField.addKeyListener(keyHandler);
-    }
 
 }

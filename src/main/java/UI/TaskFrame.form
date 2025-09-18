@@ -118,7 +118,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="EditDueDate">
+        <Component class="com.toedter.calendar.JDateChooser" name="DueDate">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Date : dd/MM/yyyy"/>
             <Property name="minSelectableDate" type="java.util.Date" editor="org.netbeans.beaninfo.editors.DateEditor">
@@ -506,7 +506,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="EditTaskDueDatelbl">
+        <Component class="com.toedter.calendar.JDateChooser" name="EditTaskDueDate">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Date : dd/MM/yyyy"/>
             <Property name="minSelectableDate" type="java.util.Date" editor="org.netbeans.beaninfo.editors.DateEditor">
@@ -1180,6 +1180,9 @@
               <Dimension value="[150, 40]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MarkDoneBtnActionPerformed"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="130" y="405" width="-1" height="-1"/>

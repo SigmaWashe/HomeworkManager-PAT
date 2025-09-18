@@ -29,7 +29,7 @@ import java.util.*;
 import java.util.logging.*;
 
 public class MainMenu extends javax.swing.JFrame {
-    FileHandler fileHandler = new FileHandler("txtFiles/data.txt");
+    FileHandler fileHandler = new FileHandler("txtFiles/Tasks.txt");
     ArrayList<Task> tasks = fileHandler.readTaskFile();
     ThemeManager themeManager = new ThemeManager();
     TaskManager taskManager = new TaskManager();
@@ -53,6 +53,9 @@ public class MainMenu extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Method to call all the methods from the other classes
+     */
     private void applyFuncCos() {
 
         themeManager.addPlaceholder(SearchFld, "Search");
@@ -62,13 +65,17 @@ public class MainMenu extends javax.swing.JFrame {
         
     }
 
+    /**
+     * Display the tasks onto the JTables
+     * @param tasks
+     */
     private void displayTasks(ArrayList<Task> tasks) {
         LocalDate today = LocalDate.now();
 
-        // Create ArrayLists for filtering tasks
+
         ArrayList<Task> todayTasks = new ArrayList<>();
         ArrayList<Task> upcomingTasks = new ArrayList<>();
-        ArrayList<Task> allTasks = tasks; // <-- Rename and directly assign
+        ArrayList<Task> allTasks = tasks;
 
         // Filter today's and upcoming tasks
         for (Task task : tasks) {
@@ -129,6 +136,10 @@ public class MainMenu extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Switches between dak and light theme
+     * @param themeName
+     */
     private void applyTheme(String themeName) {
         try {
             if ("Dark".equalsIgnoreCase(themeName)) {
@@ -167,6 +178,10 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Method to update the icons
+     * @param iconPath
+     */
     private void updateIcons(String iconPath) {
         DashboardIcon.setIcon(new ImageIcon(getClass().getResource(iconPath + "dashboard.png")));
         HomeworkIcon.setIcon(new ImageIcon(getClass().getResource(iconPath + "assignment.png")));
@@ -176,8 +191,12 @@ public class MainMenu extends javax.swing.JFrame {
         SearchBtn.setIcon(new ImageIcon(getClass().getResource(iconPath + "search.png")));
     }
 
+    /**
+     * Method to display all the data on the pie chart panel
+     * @param tasks
+     */
     private void pieChart(ArrayList<Task> tasks) {
-        ProgressTracker progressTracker = new ProgressTracker(0, 0, 0, 0); // Note the overloaded constructor
+        ProgressTracker progressTracker = new ProgressTracker(0, 0, 0, 0);
         progressTracker.calculateProgress(tasks);
 
         int total = progressTracker.getTotal();
@@ -264,7 +283,6 @@ public class MainMenu extends javax.swing.JFrame {
         SearchBtn = new javax.swing.JButton();
         SearchFld = new javax.swing.JTextField();
         HomeworkFilter = new javax.swing.JComboBox<>();
-        jComboBox1 = new javax.swing.JComboBox<>();
         Homework = new javax.swing.JScrollPane();
         HomeworkTbl = new javax.swing.JTable();
         TaskFrame = new javax.swing.JButton();
@@ -494,7 +512,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
         HomeworkPnl.add(SearchFld, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 5, 150, 30));
 
-        HomeworkFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Today", "This Week", "This Month" }));
+        HomeworkFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Today", "Upcoming" }));
         HomeworkFilter.setMinimumSize(new java.awt.Dimension(95, 25));
         HomeworkFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -502,11 +520,6 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         HomeworkPnl.add(HomeworkFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 40, 120, -1));
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "English", "Math", "FAL", "Life Orientation", "Other" }));
-        jComboBox1.setMinimumSize(new java.awt.Dimension(120, 25));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(120, 22));
-        HomeworkPnl.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
         Homework.setPreferredSize(new java.awt.Dimension(670, 350));
 
@@ -692,23 +705,6 @@ public class MainMenu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_SearchFldActionPerformed
 
-    private void SearchBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        /*
-        private void SearchBtnActionPerformed(java.awt.event.ActionEvent evt) {
-    TableRowSorter<TableModel> sorter = new TableRowSorter<>(jTable2.getModel());
-    jTable2.setRowSorter(sorter);
-    String text = SearchFld.getText();
-    if (text.trim().length() == 0) {
-        sorter.setRowFilter(null);
-    } else {
-        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text)); // case-insensitive
-    }
-}
-
-
-        */
-    }
     private void HomeworkFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeworkFilterActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_HomeworkFilterActionPerformed
@@ -726,7 +722,7 @@ public class MainMenu extends javax.swing.JFrame {
         this.dispose();
         new TaskFrame().setVisible(true);
     }//GEN-LAST:event_TaskFrameActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */
@@ -795,7 +791,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane UpcomingTask;
     private javax.swing.JTable UpcomingTaskTbl;
     private javax.swing.JLabel UpcomingTasklbl;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

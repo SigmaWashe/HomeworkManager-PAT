@@ -10,21 +10,24 @@ import java.util.logging.*;
 
 public class Settings {
 
-    private String username, school, currentTheme;
-    private int grade;
-
-    public Settings(String inUsername, String inSchool, int inGrade, String inTheme){
-        this.username = inUsername;
-        this.school = inSchool;
-        this.grade = inGrade;
-        this.currentTheme = inTheme;
-    }
-
-    public String getUsername(){ return username; }
-    public String getSchool(){ return school; }
-    public int getGrade(){ return grade; }
+    private String currentTheme;
     public String getTheme(){ return currentTheme; }
 
+    /**
+     * This method sets the theme to the
+     * @param newTheme
+     * @param sidePanel
+     * @param dashIcon
+     * @param homeworkIcon
+     * @param progressIcon
+     * @param settingsIcon
+     * @param logoutIcon
+     * @param searchIcon
+     * @throws UnsupportedLookAndFeelException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public void setTheme(String newTheme, JPanel sidePanel, JLabel dashIcon, JLabel homeworkIcon, JLabel progressIcon,
                          JLabel settingsIcon, JLabel logoutIcon, JButton searchIcon)
             throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -51,6 +54,15 @@ public class Settings {
         this.currentTheme = newTheme;
     }
 
+    /**
+     * @param pathPrefix
+     * @param dashIcon
+     * @param homeworkIcon
+     * @param progressIcon
+     * @param settingsIcon
+     * @param logoutIcon
+     * @param searchIcon
+     */
     private void setSidePanelIcons(String pathPrefix, JLabel dashIcon, JLabel homeworkIcon, JLabel progressIcon,
                                    JLabel settingsIcon, JLabel logoutIcon, JButton searchIcon) {
         ImageIcon scaledDashIcon = ThemeManager.ResizeImage(pathPrefix + "dashboard.png", 50, 50);
@@ -72,36 +84,4 @@ public class Settings {
         searchIcon.setIcon(scaledSearchIcon);
     }
 
-    public void saveSettings() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("settings.txt"))) {
-            writer.println("theme=" + this.currentTheme);
-            System.out.println("Settings saved successfully.");
-        } catch (IOException e) {
-            System.err.println("Error saving settings: " + e.getMessage());
-        }
-    }
-
-    public void loadSettings(JPanel sidePanel, JLabel dashIcon, JLabel homeworkIcon, JLabel progressIcon,
-                             JLabel settingsIcon, JLabel logoutIcon, JButton searchIcon) {
-        try (Scanner scanner = new Scanner(new File("settings.txt"))) {
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] parts = line.split("=");
-                if (parts.length == 2) {
-                    String key = parts[0].trim();
-                    String value = parts[1].trim();
-                    if (key.equalsIgnoreCase("theme")) {
-                        try {
-                            this.setTheme(value, sidePanel, dashIcon, homeworkIcon, progressIcon, settingsIcon, logoutIcon, searchIcon);
-                        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-                            System.err.println("Failed to apply theme: " + e.getMessage());
-                        }
-                    }
-                }
-            }
-            System.out.println("Settings loaded successfully.");
-        } catch (FileNotFoundException e) {
-            System.out.println("Settings file not found. Using default settings.");
-        }
-    }
 }

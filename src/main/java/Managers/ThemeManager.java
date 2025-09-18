@@ -11,6 +11,10 @@ import java.time.format.*;
 public class ThemeManager {
 
     ///--------------Method makes components transparent-------------------///
+    /**
+     * Makes the button transparent
+     * @param button
+     */
     public void transparentButton(JButton button) {
         button.setOpaque(false);
         button.setContentAreaFilled(false);
@@ -18,6 +22,10 @@ public class ThemeManager {
         button.setFocusPainted(false);
     }
 
+    /**
+     * Makes the toggle button transparent
+     * @param button
+     */
     public void toggle(JToggleButton button) {
         button.setOpaque(false);
         button.setContentAreaFilled(false);
@@ -25,44 +33,31 @@ public class ThemeManager {
         button.setFocusPainted(false);
     }
 
+    /**
+     * Makes the textField transparent
+     * @param field
+     */
     public void transparentTextField(JTextField field) {
         field.setOpaque(false);
         field.setBackground(new Color(0, 0, 0, 0));
         field.setBorder(new EmptyBorder(0, 0, 0, 0));
     }
 
+    /**
+     * Makes the password field transparent
+     * @param field
+     */
     public void transparentPasswordField(JPasswordField field) {
         field.setOpaque(false);
         field.setBackground(new Color(0, 0, 0, 0));
         field.setBorder(new EmptyBorder(0, 0, 0, 0));
     }
 
-    public void transparentPanel(JPanel panel) {
-        panel.setOpaque(false);
-        panel.setBackground(new Color(0, 0, 0, 0));  // Fully transparent background
-    }
-
-
     /**
-     * public void transparentTable(JTable table){
-     table.setOpaque(false);
-     table.setBackground(new Color(0, 0, 0, 0));
-     table.setShowGrid(false);
-
-     // Make cell renderer transparent
-     DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-     renderer.setOpaque(false);
-     table.setDefaultRenderer(Object.class, renderer);
-
-     // Make table header transparent
-     JTableHeader header = table.getTableHeader();
-     header.setOpaque(false);
-     header.setBackground(new Color(0, 0, 0, 0));
-     header.setForeground(Color.WHITE);
-
-     }
+     * Adds place holder text to the textField
+     * @param field
+     * @param placeholderText
      */
-
     public void addPlaceholder(final JTextField field, final String placeholderText) {
         field.setText(placeholderText);
         field.setForeground(Color.GRAY);
@@ -84,6 +79,15 @@ public class ThemeManager {
         });
     }
 
+    /**
+     * Adds toggle functionality to the password toggle button
+     *      - if the toggle button is selected it shows the password
+     *      - else it will hide the password
+     * @param passwordField
+     * @param toggleButton
+     * @param showIcon
+     * @param hideIcon
+     */
     public void addPasswordToggle(final JPasswordField passwordField, final JToggleButton toggleButton,
                                   final ImageIcon showIcon, final ImageIcon hideIcon) {
         toggleButton.setIcon(showIcon);
@@ -101,15 +105,26 @@ public class ThemeManager {
         });
     }
 
-    //This method scales the image
+    /**
+     * This method scales the image
+     * @param path
+     * @param width
+     * @param height
+     * @return the ImageIcon
+     */
     public static ImageIcon ResizeImage(String path, int width, int height){
         ImageIcon imageIcon = new ImageIcon(path);
         Image image = imageIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(image);
     }
 
-
-
+    /**
+     * It sets the Dashboard panel as the only visible panel on the MainMenu frame
+     * @param DashboardPnl
+     * @param HomeworkPnl
+     * @param ProgressPnl
+     * @param SettingsPnl
+     */
     public void showDashboardPanel(JPanel DashboardPnl, JPanel HomeworkPnl, JPanel ProgressPnl, JPanel SettingsPnl) {
         DashboardPnl.setVisible(true);
         HomeworkPnl.setVisible(false);
@@ -117,6 +132,13 @@ public class ThemeManager {
         SettingsPnl.setVisible(false);
     }
 
+    /**
+     * It sets the Homework panel as the only visible panel on the MainMenu frame
+     * @param DashboardPnl
+     * @param HomeworkPnl
+     * @param ProgressPnl
+     * @param SettingsPnl
+     */
     public void showHomeworkPanel(JPanel DashboardPnl, JPanel HomeworkPnl, JPanel ProgressPnl, JPanel SettingsPnl) {
         DashboardPnl.setVisible(false);
         HomeworkPnl.setVisible(true);
@@ -124,6 +146,13 @@ public class ThemeManager {
         SettingsPnl.setVisible(false);
     }
 
+    /**
+     * It sets the Progress panel as the only visible panel on the MainMenu frame
+     * @param DashboardPnl
+     * @param HomeworkPnl
+     * @param ProgressPnl
+     * @param SettingsPnl
+     */
     public void showProgressPanel(JPanel DashboardPnl, JPanel HomeworkPnl, JPanel ProgressPnl, JPanel SettingsPnl) {
         DashboardPnl.setVisible(false);
         HomeworkPnl.setVisible(false);
@@ -131,6 +160,13 @@ public class ThemeManager {
         SettingsPnl.setVisible(false);
     }
 
+    /**
+     * It sets the Settings panel as the only visible panel on the MainMenu frame
+     * @param DashboardPnl
+     * @param HomeworkPnl
+     * @param ProgressPnl
+     * @param SettingsPnl
+     */
     public void showSettingsPanel(JPanel DashboardPnl, JPanel HomeworkPnl, JPanel ProgressPnl, JPanel SettingsPnl) {
         DashboardPnl.setVisible(false);
         HomeworkPnl.setVisible(false);
@@ -138,59 +174,13 @@ public class ThemeManager {
         SettingsPnl.setVisible(true);
     }
 
-    public void RoundedTextField(JTextField textField, int radius) {
-        textField.setOpaque(false);
-        textField.setBorder(new ThemeManager.RoundedBorder(radius));
-        textField.setBackground(new Color(255, 255, 255, 230));
-        textField.setForeground(Color.BLACK);
-        textField.setCaretColor(Color.BLACK);
-    }
-
-    public void roundedTable(JScrollPane scrollPane, JTable table, int radius){
-
-        scrollPane.setBorder(new ThemeManager.RoundedBorder(radius));
-        scrollPane.setOpaque(false);
-        scrollPane.getViewport().setOpaque(false);
-
-        table.setOpaque(false);
-        table.setBorder(new ThemeManager.RoundedBorder(radius));
-        table.setBackground(new Color(255, 255, 255, 230));
-        table.setForeground(Color.BLACK);
-
-    }
-
-    // Custom Border class with rounded corners
-    class RoundedBorder implements Border {
-
-        private int radius;
-
-        public RoundedBorder(int radius) {
-            this.radius = radius;
-        }
-
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return new Insets(this.radius + 1, this.radius + 1, this.radius + 1, this.radius + 1);
-        }
-
-        @Override
-        public boolean isBorderOpaque() {
-            return false;
-        }
-
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-            // Draw rounded rectangle border
-            g2.setColor(Color.GRAY);
-            g2.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-            g2.dispose();
-        }
-    }
-
-    /// TaskFrame switch panels
+    /**
+     * It sets the AddTask panel as the only visible panel on the TaskFrame
+     * @param AddTaskPnl
+     * @param EditTaskPnl
+     * @param DeleteTaskPnl
+     * @param MarkDonePnl
+     */
     public void showAddTaskPanel(JPanel AddTaskPnl, JPanel EditTaskPnl, JPanel DeleteTaskPnl, JPanel MarkDonePnl) {
         AddTaskPnl.setVisible(true);
         EditTaskPnl.setVisible(false);
@@ -198,6 +188,13 @@ public class ThemeManager {
         MarkDonePnl.setVisible(false);
     }
 
+    /**
+     * It sets the EditTask panel as the only visible panel on the TaskFrame
+     * @param AddTaskPnl
+     * @param EditTaskPnl
+     * @param DeleteTaskPnl
+     * @param MarkDonePnl
+     */
     public void showEditTaskPanel(JPanel AddTaskPnl, JPanel EditTaskPnl, JPanel DeleteTaskPnl, JPanel MarkDonePnl) {
         AddTaskPnl.setVisible(false);
         EditTaskPnl.setVisible(true);
@@ -205,6 +202,13 @@ public class ThemeManager {
         MarkDonePnl.setVisible(false);
     }
 
+    /**
+     * It sets the DeleteTask panel as the only visible panel on the TaskFrame
+     * @param AddTaskPnl
+     * @param EditTaskPnl
+     * @param DeleteTaskPnl
+     * @param MarkDonePnl
+     */
     public void showDeleteTaskPanel(JPanel AddTaskPnl, JPanel EditTaskPnl, JPanel DeleteTaskPnl, JPanel MarkDonePnl) {
         AddTaskPnl.setVisible(false);
         EditTaskPnl.setVisible(false);
@@ -212,6 +216,13 @@ public class ThemeManager {
         MarkDonePnl.setVisible(false);
     }
 
+    /**
+     * It sets the MarkDone panel as the only visible panel on the TaskFrame
+     * @param AddTaskPnl
+     * @param EditTaskPnl
+     * @param DeleteTaskPnl
+     * @param MarkDonePnl
+     */
     public void showMarkDonePanel(JPanel AddTaskPnl, JPanel EditTaskPnl, JPanel DeleteTaskPnl, JPanel MarkDonePnl) {
         AddTaskPnl.setVisible(false);
         EditTaskPnl.setVisible(false);

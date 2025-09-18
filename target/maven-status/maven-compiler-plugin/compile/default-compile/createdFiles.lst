@@ -9,7 +9,6 @@ UI\TaskFrame$8.class
 UI\TaskFrame$1.class
 UI\LoginPage$1.class
 UI\MainMenu$8.class
-Managers\TaskManager$1.class
 Managers\DarkTheme.class
 UI\MainMenu.class
 UI\LoginPage$5.class
@@ -18,7 +17,6 @@ UI\MainMenu$10.class
 UI\MainMenu$4.class
 UI\TaskFrame$9.class
 Managers\Authenticator$1.class
-Managers\ThemeManager$RoundedBorder.class
 Managers\LightTheme.class
 UI\LoginPage$2.class
 UI\MainMenu$7.class

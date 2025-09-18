@@ -11,10 +11,18 @@ public class FileHandler {
 
     private String filePath;
 
+    /**
+     * The CONSTRUCTOR of the FileHandler class
+     * @param inPath
+     */
     public FileHandler(String inPath) {
         this.filePath = inPath;
     }
 
+    /**
+     * Reads all the tasks in the .txt file and puts it into the ArrayList called taskList
+     * @return the taskList
+     */
     public ArrayList<Task> readTaskFile() {
         ArrayList<Task> taskList = new ArrayList<>();
         try (Scanner scFile = new Scanner(new File(filePath))) {
@@ -49,6 +57,10 @@ public class FileHandler {
         return taskList;
     }
 
+    /**
+     * Writes all the tasks to the .txt file
+     * @param tasks
+     */
     public void writeToTaskFile(ArrayList<Task> tasks) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
             for (Task task : tasks) {
@@ -67,24 +79,4 @@ public class FileHandler {
             e.printStackTrace();
         }
     }
-
-    public void overwriteTaskFile(ArrayList<Task> taskList) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
-            for (Task task : taskList) {
-                String line = task.getTaskID() + "#" +
-                        task.getTaskName() + "#" +
-                        task.getSubject() + "#" +
-                        task.getDueDate().format(DateTimeFormatter.ofPattern("dd MM yyyy")) + "#" +
-                        task.getDueTime().format(DateTimeFormatter.ofPattern("HH:mm")) + "#" +
-                        task.getPriority() + "#" +
-                        task.getStatus();
-                writer.println(line);
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error writing to file: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }
-
 }

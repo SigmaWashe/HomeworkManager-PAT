@@ -1,0 +1,24 @@
+@startuml
+class UI.LoginPage {
+~ Authenticator a
+~ ThemeManager tm
+- javax.swing.JLabel Background
+- javax.swing.JButton LoginBtn
+- javax.swing.JPanel LoginPnl
+- javax.swing.JPasswordField PasswordFld
+- javax.swing.JToggleButton ToggleBtn
+- javax.swing.JTextField UsernameFld
+- void applyFuncCos()
+- void initComponents()
+- void LoginBtnActionPerformed(java.awt.event.ActionEvent)
+- void UsernameFldActionPerformed(java.awt.event.ActionEvent)
+- void PasswordFldActionPerformed(java.awt.event.ActionEvent)
+- void ToggleBtnActionPerformed(java.awt.event.ActionEvent)
++ {static} void main(String[])
+}
+
+
+
+
+UI.JFrame <|-- UI.LoginPage
+@enduml

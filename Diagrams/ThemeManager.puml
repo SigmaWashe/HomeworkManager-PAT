@@ -1,0 +1,20 @@
+@startuml
+class Managers.ThemeManager {
++ void transparentButton(JButton)
++ void toggle(JToggleButton)
++ void transparentTextField(JTextField)
++ void transparentPasswordField(JPasswordField)
++ void addPlaceholder(JTextField,String)
++ void addPasswordToggle(JPasswordField,JToggleButton,ImageIcon,ImageIcon)
++ {static} ImageIcon ResizeImage(String,int,int)
++ void showDashboardPanel(JPanel,JPanel,JPanel,JPanel)
++ void showHomeworkPanel(JPanel,JPanel,JPanel,JPanel)
++ void showProgressPanel(JPanel,JPanel,JPanel,JPanel)
++ void showSettingsPanel(JPanel,JPanel,JPanel,JPanel)
++ void showAddTaskPanel(JPanel,JPanel,JPanel,JPanel)
++ void showEditTaskPanel(JPanel,JPanel,JPanel,JPanel)
++ void showDeleteTaskPanel(JPanel,JPanel,JPanel,JPanel)
++ void showMarkDonePanel(JPanel,JPanel,JPanel,JPanel)
+}
+
+@enduml

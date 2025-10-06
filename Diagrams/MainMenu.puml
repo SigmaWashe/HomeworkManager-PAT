@@ -1,0 +1,72 @@
+@startuml
+class UI.MainMenu {
+~ FileHandler fileHandler
+~ ArrayList<Task> tasks
+~ ThemeManager themeManager
+~ TaskManager taskManager
+~ DarkTheme dt
+~ LightTheme lt
+- javax.swing.JButton AddTaskBtn
+- javax.swing.JLabel Completedlbl
+- javax.swing.JLabel DashBG
+- javax.swing.JLabel DashboardIcon
+- javax.swing.JPanel DashboardPnl
+- javax.swing.JScrollPane Homework
+- javax.swing.JLabel HomeworkBG
+- javax.swing.JComboBox<String> HomeworkFilter
+- javax.swing.JLabel HomeworkIcon
+- javax.swing.JPanel HomeworkPnl
+- javax.swing.JTable HomeworkTbl
+- javax.swing.JLabel LogoutIcon
+- javax.swing.JPanel MainPanel
+- javax.swing.JLabel Overduelbl
+- javax.swing.JLabel Pendinglbl
+- javax.swing.JPanel PieChartPnl
+- javax.swing.JLabel ProgBG
+- javax.swing.JLabel ProgressIcon
+- javax.swing.JPanel ProgressPnl
+- javax.swing.JLabel ProgressSummaryLbl
+- javax.swing.JTable ProgressSummaryTbl
+- javax.swing.JScrollPane ProgressSunnary
+- javax.swing.JLabel RateCompletelbl
+- javax.swing.JLabel RateOverduelbl
+- javax.swing.JLabel RatePendinglbl
+- javax.swing.JLabel SettingsBG
+- javax.swing.JLabel SettingsIcon
+- javax.swing.JPanel SettingsPnl
+- javax.swing.JPanel SidePnl
+- javax.swing.JComboBox<String> ThemeSelector
+- javax.swing.JLabel Themelbl
+- javax.swing.JLabel TodaysTasklbl
+- javax.swing.JScrollPane TodaysTasks
+- javax.swing.JTable TodaysTasksTbl
+- javax.swing.JLabel TotalTasksbl
+- javax.swing.JScrollPane UpcomingTask
+- javax.swing.JTable UpcomingTaskTbl
+- javax.swing.JLabel UpcomingTasklbl
+- javax.swing.JSeparator jSeparator1
+- javax.swing.JSeparator jSeparator2
+- javax.swing.JSeparator jSeparator3
+- javax.swing.JSeparator jSeparator4
+- javax.swing.JSeparator jSeparator5
+- void displayTasks(ArrayList<Task>)
+- void applyTheme(String)
+- void updateIcons(String)
+- void pieChart(ArrayList<Task>)
+- void initComponents()
+- void DashboardIconMouseClicked(java.awt.event.MouseEvent)
+- void HomeworkIconMouseClicked(java.awt.event.MouseEvent)
+- void ProgressIconMouseClicked(java.awt.event.MouseEvent)
+- void SettingsIconMouseClicked(java.awt.event.MouseEvent)
+- void LogoutIconMouseClicked(java.awt.event.MouseEvent)
+- void HomeworkFilterActionPerformed(java.awt.event.ActionEvent)
+- void ThemeSelectorActionPerformed(java.awt.event.ActionEvent)
+- void AddTaskBtnActionPerformed(java.awt.event.ActionEvent)
++ {static} void main(String[])
+}
+
+
+
+
+UI.JFrame <|-- UI.MainMenu
+@enduml

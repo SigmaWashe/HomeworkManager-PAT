@@ -1,0 +1,7 @@
+@startuml
+class Managers.TaskUtils {
++ {static} String formatDate(Date)
++ {static} String formatTime(String,String)
+}
+
+@enduml

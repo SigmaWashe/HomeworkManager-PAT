@@ -1,0 +1,27 @@
+@startuml
+class Managers.Task {
+- int taskID
+- String taskName
+- LocalDate dueDate
+- LocalTime dueTime
+- String priority
+- {static} String PRIORITY_HIGH
+- {static} String PRIORITY_MEDIUM
+- {static} String PRIORITY_LOW
+- {static} String DEFAULT_PRIORITY
+- {static} String STATUS_COMPLETE
+- {static} String STATUS_PENDING
+- {static} String STATUS_OVERDUE
+- {static} String DEFAULT_STATUS
++ int getTaskID()
++ String getTaskName()
++ String getSubject()
++ LocalDate getDueDate()
++ LocalTime getDueTime()
++ String getPriority()
++ String getStatus()
++ void setStatus(String)
+}
+
+
+@enduml

@@ -1,0 +1,97 @@
+@startuml
+class UI.TaskFrame {
+~ ThemeManager themeManager
+~ TaskManager taskManager
+~ FileHandler fileHandler
+~ ArrayList<Task> tasks
+- javax.swing.JLabel AddTaskBG
+- javax.swing.JButton AddTaskBtn
+- javax.swing.JLabel AddTaskIcn
+- javax.swing.JPanel AddTaskPnl
+- javax.swing.JLabel BG1
+- javax.swing.JLabel DeleteTaskBG
+- javax.swing.JButton DeleteTaskBtn
+- javax.swing.JLabel DeleteTaskIcn
+- javax.swing.JPanel DeleteTaskPnl
+- javax.swing.JButton DeleteTaskSearchBtn
+- javax.swing.JTextField DeleteTaskSearchFld
+- com.toedter.calendar.JDateChooser DueDate
+- javax.swing.JLabel DueDatelbl
+- javax.swing.JLabel DueDatelbl1
+- javax.swing.JLabel DueDatelbl2
+- javax.swing.JLabel DueTime
+- javax.swing.JLabel DueTime1
+- javax.swing.JLabel DueTime2
+- javax.swing.JLabel EditDueDatelbl
+- javax.swing.JLabel EditDueTimelbl
+- javax.swing.JLabel EditPrioritylbl
+- javax.swing.JLabel EditStatuslbl
+- javax.swing.JLabel EditSubjectlbl
+- javax.swing.JButton EditTaskBtn
+- com.toedter.calendar.JDateChooser EditTaskDueDate
+- javax.swing.JComboBox<String> EditTaskDueHour
+- javax.swing.JComboBox<String> EditTaskDueMinute
+- javax.swing.JLabel EditTaskIDlbl
+- javax.swing.JLabel EditTaskIcn
+- javax.swing.JTextField EditTaskNamefld
+- javax.swing.JLabel EditTaskNamelbl
+- javax.swing.JPanel EditTaskPnl
+- javax.swing.JComboBox<String> EditTaskPriority
+- javax.swing.JButton EditTaskSearchBtn
+- javax.swing.JTextField EditTaskSearchFld
+- javax.swing.JComboBox<String> EditTaskStatus
+- javax.swing.JTextField EditTaskSubjectfld
+- javax.swing.JComboBox<String> HourChooser
+- javax.swing.JLabel MarkDoneBG
+- javax.swing.JButton MarkDoneBtn
+- javax.swing.JPanel MarkDonePnl
+- javax.swing.JButton MarkDoneSearchBtn
+- javax.swing.JTextField MarkDoneSearchFld
+- javax.swing.JLabel MarkDoneTaskIcn
+- javax.swing.JComboBox<String> MinuteChooser
+- javax.swing.JComboBox<String> PriorityChooser
+- javax.swing.JLabel Prioritylbl
+- javax.swing.JLabel Prioritylbl1
+- javax.swing.JLabel Prioritylbl2
+- javax.swing.JPanel SidePnl
+- javax.swing.JComboBox<String> StatusChooser
+- javax.swing.JLabel Statuslbl
+- javax.swing.JLabel Statuslbl1
+- javax.swing.JLabel Statuslbl2
+- javax.swing.JTextField Subject
+- javax.swing.JLabel Subjectlbl
+- javax.swing.JLabel Subjectlbl1
+- javax.swing.JLabel Subjectlbl2
+- javax.swing.JLabel TaskFrameBG
+- javax.swing.JLabel TaskID1
+- javax.swing.JLabel TaskID2
+- javax.swing.JTextField TaskName
+- javax.swing.JLabel TaskNamelbl
+- javax.swing.JLabel TaskNamelbl1
+- javax.swing.JLabel TaskNamelbl2
+- void clearTaskLabels(JLabel,JLabel,JLabel,JLabel,JLabel,JLabel,JLabel)
+- void clearInputFields(JTextField,JTextField,JDateChooser,JComboBox,JComboBox,JComboBox,JComboBox)
+- void setPanel(JPanel,Dimension)
+- void initComponents()
+- void AddTaskBtnActionPerformed(java.awt.event.ActionEvent)
+- void AddTaskIcnMouseClicked(java.awt.event.MouseEvent)
+- void EditTaskIcnMouseClicked(java.awt.event.MouseEvent)
+- void DeleteTaskIcnMouseClicked(java.awt.event.MouseEvent)
+- void MarkDoneTaskIcnMouseClicked(java.awt.event.MouseEvent)
+- void EditTaskSearchBtnActionPerformed(java.awt.event.ActionEvent)
+- void EditTaskBtnActionPerformed(java.awt.event.ActionEvent)
+- void EditTaskSearchFldActionPerformed(java.awt.event.ActionEvent)
+- void DeleteTaskSearchBtnActionPerformed(java.awt.event.ActionEvent)
+- void DeleteTaskBtnActionPerformed(java.awt.event.ActionEvent)
+- void DeleteTaskSearchFldActionPerformed(java.awt.event.ActionEvent)
+- void MarkDoneSearchBtnActionPerformed(java.awt.event.ActionEvent)
+- void MarkDoneSearchFldActionPerformed(java.awt.event.ActionEvent)
+- void MarkDoneBtnActionPerformed(java.awt.event.ActionEvent)
++ {static} void main(String[])
+}
+
+
+
+
+UI.JFrame <|-- UI.TaskFrame
+@enduml

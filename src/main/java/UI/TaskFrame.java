@@ -1,7 +1,6 @@
 package UI;
 
 
-import UI.MainMenu;
 import Managers.FileHandler;
 import Managers.Task;
 import Managers.TaskUtils;
@@ -11,15 +10,11 @@ import com.formdev.flatlaf.*;
 import com.toedter.calendar.*;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.text.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
-import javax.swing.table.*;
 
 
 /*
@@ -45,12 +40,13 @@ public class TaskFrame extends javax.swing.JFrame {
         
         themeManager.transparentButton(EditTaskSearchBtn);
         themeManager.transparentButton(DeleteTaskSearchBtn);
-        themeManager.transparentButton(MarkDoneBtn);
+        themeManager.transparentButton(MarkDoneSearchBtn);
         
         /// Show AddTaskPnl by default
         setPanel(AddTaskPnl, new Dimension(450, 500));
         this.pack();
         
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -261,7 +257,7 @@ public class TaskFrame extends javax.swing.JFrame {
         });
         AddTaskPnl.add(AddTaskBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 370, -1, 40));
 
-        AddTaskBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/BACKGROUND.png"))); // NOI18N
+        AddTaskBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/LightBG.png"))); // NOI18N
         AddTaskBG.setToolTipText("");
         AddTaskPnl.add(AddTaskBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 0, 400, 550));
 
@@ -270,7 +266,8 @@ public class TaskFrame extends javax.swing.JFrame {
         EditTaskPnl.setPreferredSize(new java.awt.Dimension(450, 550));
         EditTaskPnl.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        EditTaskSearchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/search.png"))); // NOI18N
+        EditTaskSearchBtn.setForeground(new java.awt.Color(30, 31, 38));
+        EditTaskSearchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/darkThemeIcons/search.png"))); // NOI18N
         EditTaskSearchBtn.setMaximumSize(new java.awt.Dimension(30, 30));
         EditTaskSearchBtn.setMinimumSize(new java.awt.Dimension(30, 30));
         EditTaskSearchBtn.setPreferredSize(new java.awt.Dimension(30, 30));
@@ -354,7 +351,7 @@ public class TaskFrame extends javax.swing.JFrame {
         EditStatuslbl.setPreferredSize(new java.awt.Dimension(300, 40));
         EditTaskPnl.add(EditStatuslbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, -1, -1));
 
-        EditTaskBtn.setBackground(new Color(40,40,40,128));
+        EditTaskBtn.setBackground(new Color(30,31,38, 128));
         EditTaskBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         EditTaskBtn.setText("Edit Tasks");
         EditTaskBtn.setPreferredSize(new java.awt.Dimension(120, 40));
@@ -365,16 +362,16 @@ public class TaskFrame extends javax.swing.JFrame {
         });
         EditTaskPnl.add(EditTaskBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 430, -1, -1));
 
-        BG1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/BACKGROUND.png"))); // NOI18N
+        BG1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/LightBG.png"))); // NOI18N
         BG1.setToolTipText("");
         EditTaskPnl.add(BG1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 0, 500, 550));
 
         getContentPane().add(EditTaskPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, -1, -1));
 
-        DeleteTaskPnl.setPreferredSize(new java.awt.Dimension(350, 500));
+        DeleteTaskPnl.setPreferredSize(new java.awt.Dimension(400, 500));
         DeleteTaskPnl.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        DeleteTaskSearchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/search.png"))); // NOI18N
+        DeleteTaskSearchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/darkThemeIcons/search.png"))); // NOI18N
         DeleteTaskSearchBtn.setMaximumSize(new java.awt.Dimension(30, 30));
         DeleteTaskSearchBtn.setMinimumSize(new java.awt.Dimension(30, 30));
         DeleteTaskSearchBtn.setPreferredSize(new java.awt.Dimension(30, 30));
@@ -405,7 +402,7 @@ public class TaskFrame extends javax.swing.JFrame {
         TaskNamelbl1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         TaskNamelbl1.setText("Task Name :");
         TaskNamelbl1.setPreferredSize(new java.awt.Dimension(110, 30));
-        DeleteTaskPnl.add(TaskNamelbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 700, 40));
+        DeleteTaskPnl.add(TaskNamelbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 400, 40));
 
         Subjectlbl1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Subjectlbl1.setText("Subject       :");
@@ -431,7 +428,7 @@ public class TaskFrame extends javax.swing.JFrame {
         Statuslbl1.setText("Status        :");
         DeleteTaskPnl.add(Statuslbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 380, 40));
 
-        DeleteTaskBtn.setBackground(new Color(40,40,40,128));
+        DeleteTaskBtn.setBackground(new Color(30,31,38, 128));
         DeleteTaskBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         DeleteTaskBtn.setText("DELETE TASK");
         DeleteTaskBtn.setPreferredSize(new java.awt.Dimension(150, 40));
@@ -442,16 +439,16 @@ public class TaskFrame extends javax.swing.JFrame {
         });
         DeleteTaskPnl.add(DeleteTaskBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 405, -1, -1));
 
-        DeleteTaskBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/BACKGROUND.png"))); // NOI18N
+        DeleteTaskBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/LightBG.png"))); // NOI18N
         DeleteTaskBG.setToolTipText("");
         DeleteTaskPnl.add(DeleteTaskBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 0, 450, 550));
 
         getContentPane().add(DeleteTaskPnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, -1, -1));
 
-        MarkDonePnl.setPreferredSize(new java.awt.Dimension(350, 500));
+        MarkDonePnl.setPreferredSize(new java.awt.Dimension(400, 500));
         MarkDonePnl.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        MarkDoneSearchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/search.png"))); // NOI18N
+        MarkDoneSearchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/darkThemeIcons/search.png"))); // NOI18N
         MarkDoneSearchBtn.setMaximumSize(new java.awt.Dimension(30, 30));
         MarkDoneSearchBtn.setMinimumSize(new java.awt.Dimension(30, 30));
         MarkDoneSearchBtn.setPreferredSize(new java.awt.Dimension(30, 30));
@@ -482,12 +479,12 @@ public class TaskFrame extends javax.swing.JFrame {
         TaskNamelbl2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         TaskNamelbl2.setText("Task Name :");
         TaskNamelbl2.setPreferredSize(new java.awt.Dimension(110, 30));
-        MarkDonePnl.add(TaskNamelbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 380, 40));
+        MarkDonePnl.add(TaskNamelbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 400, 40));
 
         Subjectlbl2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Subjectlbl2.setText("Subject       :");
         Subjectlbl2.setPreferredSize(new java.awt.Dimension(120, 40));
-        MarkDonePnl.add(Subjectlbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 380, -1));
+        MarkDonePnl.add(Subjectlbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 700, -1));
 
         DueDatelbl2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         DueDatelbl2.setText("Due Date    :");
@@ -508,7 +505,7 @@ public class TaskFrame extends javax.swing.JFrame {
         Statuslbl2.setText("Status        :");
         MarkDonePnl.add(Statuslbl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 380, 40));
 
-        MarkDoneBtn.setBackground(new Color(40,40,40,128));
+        MarkDoneBtn.setBackground(new Color(30,31,38, 128));
         MarkDoneBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         MarkDoneBtn.setText("Mark Done");
         MarkDoneBtn.setPreferredSize(new java.awt.Dimension(150, 40));
@@ -519,7 +516,7 @@ public class TaskFrame extends javax.swing.JFrame {
         });
         MarkDonePnl.add(MarkDoneBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 405, -1, -1));
 
-        MarkDoneBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/BACKGROUND.png"))); // NOI18N
+        MarkDoneBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/LightBG.png"))); // NOI18N
         MarkDoneBG.setToolTipText("");
         MarkDonePnl.add(MarkDoneBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 0, 450, 550));
 
@@ -572,7 +569,7 @@ public class TaskFrame extends javax.swing.JFrame {
 
         getContentPane().add(SidePnl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        TaskFrameBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/BACKGROUND.png"))); // NOI18N
+        TaskFrameBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/LightBG.png"))); // NOI18N
         TaskFrameBG.setToolTipText("");
         TaskFrameBG.setPreferredSize(new java.awt.Dimension(700, 550));
         getContentPane().add(TaskFrameBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -666,7 +663,7 @@ public class TaskFrame extends javax.swing.JFrame {
     private void DeleteTaskIcnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteTaskIcnMouseClicked
         // TODO add your handling code here:
         themeManager.showDeleteTaskPanel(AddTaskPnl, EditTaskPnl, DeleteTaskPnl, MarkDonePnl);
-        setPanel(DeleteTaskPnl, new Dimension(700, 550));
+        setPanel(DeleteTaskPnl, new Dimension(450, 550));
     }//GEN-LAST:event_DeleteTaskIcnMouseClicked
 
     private void MarkDoneTaskIcnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MarkDoneTaskIcnMouseClicked
@@ -675,115 +672,117 @@ public class TaskFrame extends javax.swing.JFrame {
         setPanel(MarkDonePnl, new Dimension(450, 550));
     }//GEN-LAST:event_MarkDoneTaskIcnMouseClicked
 
-    private void EditTaskSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditTaskSearchBtnActionPerformed
-        // TODO add your handling code here:
+    private void EditTaskSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        // Clear previous input fields and labels
         clearInputFields(TaskName, Subject, DueDate, EditTaskDueHour, EditTaskDueMinute,
-                            EditTaskPriority, EditTaskStatus);
+                EditTaskPriority, EditTaskStatus);
         clearTaskLabels(EditTaskIDlbl, EditTaskNamelbl, EditSubjectlbl, EditDueDatelbl, EditDueTimelbl, EditPrioritylbl, EditStatuslbl);
-        String searchKeyword = EditTaskSearchFld.getText();
+
+        String searchKeyword = EditTaskSearchFld.getText().trim();
+
+        // Check if the search field is empty
+        if (searchKeyword.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a search term.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         try {
+            // Perform the search
             ArrayList<Task> results = taskManager.searchTask(searchKeyword);
 
             if (results.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter a valid search term.", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No tasks found matching the search term.", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
                 Task foundTask = results.get(0);
+
+                // Set the task details in the UI
                 EditTaskIDlbl.setText("Task ID       : " + foundTask.getTaskID());
                 EditTaskNamefld.setText(foundTask.getTaskName());
                 EditTaskSubjectfld.setText(foundTask.getSubject());
+
+                // Check for non-null due date
                 if (foundTask.getDueDate() != null) {
                     DueDate.setDate(java.sql.Date.valueOf(foundTask.getDueDate()));
                 }
+
+                // Check for non-null due time
                 if (foundTask.getDueTime() != null) {
                     String hour = String.format("%02d", foundTask.getDueTime().getHour());
                     String minute = String.format("%02d", foundTask.getDueTime().getMinute());
-
                     EditTaskDueHour.setSelectedItem(hour);
                     EditTaskDueMinute.setSelectedItem(minute);
                 }
+
                 EditTaskPriority.setSelectedItem(foundTask.getPriority());
                 EditTaskStatus.setSelectedItem(foundTask.getStatus());
+
+                int taskID = foundTask.getTaskID();
+                String name = foundTask.getTaskName();
+                String subject = foundTask.getSubject();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error while searching: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-    }//GEN-LAST:event_EditTaskSearchBtnActionPerformed
+    }
 
     private void EditTaskBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditTaskBtnActionPerformed
-        // TODO add your handling code here:
-        try{
+        try {
+
             int taskID = Integer.parseInt(EditTaskIDlbl.getText().replaceAll("\\D+", ""));
 
-            // Get and validate the task name.
             String taskName = EditTaskNamefld.getText().trim().toUpperCase();
             if (taskName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter a task name.",
-                        "Input Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter a task name.", "Input Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // Get and validate the subject.
             String subject = EditTaskSubjectfld.getText().trim().toUpperCase();
             if (subject.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter a subject.",
-                        "Input Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter a subject.", "Input Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // Get and validate the due date.
             Date dueDate = DueDate.getDate();
-            // The following line is causing the error. It should be removed.
-            // dueDate = taskManager.setDueDate();
             if (dueDate == null) {
-                JOptionPane.showMessageDialog(this, "Please select a due date.",
-                        "Input Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please select a due date.", "Input Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-
-            // Use the TaskUtils.formatDate() method
-            String formattedDate = TaskUtils.formatDate(dueDate);
-            System.out.println("Task due date: " + formattedDate);
 
             String hour = (String) EditTaskDueHour.getSelectedItem();
             String minute = (String) EditTaskDueMinute.getSelectedItem();
 
-            // Use the TaskUtils.formatTime() method
-            String dueTime = TaskUtils.formatTime(hour, minute);
-            System.out.println("Task due time: " + dueTime);
+            if (hour == null || minute == null) {
+                JOptionPane.showMessageDialog(this, "Please select a due time.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-            // Get the selected priority and status.
             String priority = (String) EditTaskPriority.getSelectedItem();
             String status = (String) EditTaskStatus.getSelectedItem();
 
-            // Convert the Date to LocalDate and hour/minute to LocalTime for the Task object.
             LocalDate localDueDate = dueDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             LocalTime localDueTime = LocalTime.of(Integer.parseInt(hour), Integer.parseInt(minute));
 
-            // Create a new Task object with the collected data.
             Task updatedTask = new Task(taskID, taskName, subject, localDueDate, localDueTime, priority, status);
 
-            // Add the new task to the TaskManager.
-            taskManager.editTask(taskID, updatedTask);
-
-            // Write the entire updated task list to the file
+            boolean success = taskManager.editTask(taskID, updatedTask);
+            if (!success) {
+                JOptionPane.showMessageDialog(this, "Task with ID " + taskID + " not found.",
+                        "Edit Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             fileHandler.writeToTaskFile(taskManager.getTaskList());
 
-            clearInputFields(EditTaskNamefld, EditTaskSubjectfld, DueDate, EditTaskDueHour, EditTaskDueMinute,
-                             EditTaskPriority, EditTaskStatus);
             JOptionPane.showMessageDialog(this, "Task edited and saved successfully!",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
 
-        } catch (Exception e){
-            JOptionPane.showMessageDialog(this, "Error while editing task: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error while editing task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-
     }//GEN-LAST:event_EditTaskBtnActionPerformed
+
 
     private void EditTaskSearchFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditTaskSearchFldActionPerformed
         // TODO add your handling code here:
@@ -811,7 +810,7 @@ public class TaskFrame extends javax.swing.JFrame {
                 DueDatelbl1.setText("Due Date    : " + foundTask.getDueDate().format(dateFormatter));
 
                 // Correct way to format and set the due time label
-                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
                 DueTime1.setText("Due Time    : " + foundTask.getDueTime().format(timeFormatter));
 
                 Prioritylbl1.setText("Priority      : " + foundTask.getPriority());
@@ -871,7 +870,7 @@ public class TaskFrame extends javax.swing.JFrame {
                 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
                 DueDatelbl2.setText("Due Date    : " + foundTask.getDueDate().format(dateFormatter));
 
-                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm");
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
                 DueTime2.setText("Due Time    : " + foundTask.getDueTime().format(timeFormatter));
 
                 Prioritylbl2.setText("Priority      : " + foundTask.getPriority());

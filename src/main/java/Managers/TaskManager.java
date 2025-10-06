@@ -30,12 +30,14 @@ public class TaskManager {
      * @param taskID
      * @param updatedTask
      */
-    public void editTask(int taskID, Task updatedTask){
+    public boolean editTask(int taskID, Task updatedTask){
         for (int i = 0; i < taskList.size(); i++) {
             if (taskList.get(i).getTaskID() == taskID) {
                 taskList.set(i, updatedTask);
+                return true;
             }
         }
+        return false;
     }
 
     /**
@@ -79,20 +81,25 @@ public class TaskManager {
         ArrayList<Task> searchResults = new ArrayList<>();
         String searchKeyword = keyword.toUpperCase();
 
-        for (Task task : taskList) {
-            try {
-                int id = Integer.parseInt(keyword);
+        // Try to match Task ID if the keyword is numeric
+        try {
+            int id = Integer.parseInt(keyword);
+            for (Task task : taskList) {
                 if (task.getTaskID() == id) {
                     searchResults.add(task);
-                    break;
+                    break; // Exit after finding the first match
                 }
+            }
+        } catch (NumberFormatException e) {
+            // If it's not a number, proceed to search by name or subject
+            for (Task task : taskList) {
                 if (task.getTaskName().toUpperCase().contains(searchKeyword) ||
-                        task.getSubject().toUpperCase().contains(keyword)) {
+                        task.getSubject().toUpperCase().contains(searchKeyword)) {
                     searchResults.add(task);
                 }
-            } catch (NumberFormatException e) { }
-
+            }
         }
+
         return searchResults;
     }
 

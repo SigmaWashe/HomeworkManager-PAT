@@ -1,0 +1,10 @@
+@startuml
+class Managers.Settings {
+- String currentTheme
++ String getTheme()
++ void setTheme(String,JPanel,JLabel,JLabel,JLabel,JLabel,JLabel,JButton)
+- void setSidePanelIcons(String,JLabel,JLabel,JLabel,JLabel,JLabel,JButton)
+}
+
+
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+class Managers.FileHandler {
+- String filePath
++ ArrayList<Task> readTaskFile()
++ void writeToTaskFile(ArrayList<Task>)
+}
+
+
+@enduml

@@ -6,33 +6,33 @@ import java.awt.*;
 public class LightTheme {
 
     /**
-     * Sets the background of panels to that of the light theme
+     * Sets the background of panels to that of the Light theme
      * @param dashBG
      * @param homeworkBG
      * @param progBG
      * @param settingsBG
      */
     public void BackgroundLightTheme(JLabel dashBG, JLabel homeworkBG, JLabel progBG, JLabel settingsBG){
-        dashBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LightThemeIcons/BACKGROUND.png")));
-        homeworkBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LightThemeIcons/BACKGROUND.png")));
-        progBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LightThemeIcons/BACKGROUND.png")));
-        settingsBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LightThemeIcons/BACKGROUND.png")));
+        dashBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/LightBG.png")));
+        homeworkBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/LightBG.png")));
+        progBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/LightBG.png")));
+        settingsBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lightThemeIcons/LightBG.png")));
     }
 
     /**
-     * Sets the labels in the DASHBOARD panel to LIGHT theme
+     * Sets the labels in the DASHBOARD panel to Light theme
      * @param todaysTaskLbl
      * @param upcomingTaskLbl
      * @param progSummaryLbl
      */
     public void DashboardLightTheme(JLabel todaysTaskLbl, JLabel upcomingTaskLbl, JLabel progSummaryLbl){
-        todaysTaskLbl.setForeground( new Color(204, 204, 204));
-        upcomingTaskLbl.setForeground( new Color(204, 204, 204));
-        progSummaryLbl.setForeground( new Color(204, 204, 204));
+        todaysTaskLbl.setForeground( new Color(31, 30, 38));
+        upcomingTaskLbl.setForeground( new Color(31, 30, 38));
+        progSummaryLbl.setForeground( new Color(31, 30, 38));
     }
 
     /**
-     * Sets the labels in the PROGRESS panel to LIGHT theme
+     * Sets the labels in the PROGRESS panel to Light theme
      * @param completeLbl
      * @param pendingLbl
      * @param overdueLbl
@@ -44,32 +44,25 @@ public class LightTheme {
      */
     public void ProgressLightTheme(JLabel completeLbl, JLabel pendingLbl, JLabel overdueLbl, JPanel pieChartPnl,
                                   JLabel progSumLbl, JLabel progCompleteLbl, JLabel progPendingLbl, JLabel progSumOverdue){
-        completeLbl.setForeground( new Color(204, 204, 204));
-        pendingLbl.setForeground( new Color(204, 204, 204));
-        overdueLbl.setForeground( new Color(204, 204, 204));
+        completeLbl.setForeground( new Color(31, 30, 38));
+        pendingLbl.setForeground( new Color(31, 30, 38));
+        overdueLbl.setForeground( new Color(31, 30, 38));
         pieChartPnl.setBackground( new Color(30, 30, 30));
-        progSumLbl.setForeground( new Color(204, 204, 204));
-        progCompleteLbl.setForeground( new Color(204, 204, 204));
-        progPendingLbl.setForeground( new Color(204, 204, 204));
-        progSumOverdue.setForeground( new Color(204, 204, 204));
+        progSumLbl.setForeground( new Color(31, 30, 38));
+        progCompleteLbl.setForeground( new Color(31, 30, 38));
+        progPendingLbl.setForeground( new Color(31, 30, 38));
+        progSumOverdue.setForeground( new Color(31, 30, 38));
     }
 
     /**
-     * Sets the labels in the SETTINGS panel to LIGHT theme
+     * Sets the labels in the SETTINGS panel to Light theme
+     *
      * @param nameLbl
-     * @param schoolLbl
-     * @param gradeLbl
-     * @param themeLbl
      */
-    public void SettingsLightTheme(JLabel nameLbl, JLabel schoolLbl, JLabel gradeLbl, JLabel themeLbl/*, JButton saveChangeBtn, JButton applyChangeBtn*/){
-        nameLbl.setForeground( new Color(204, 204, 204));
-        schoolLbl.setForeground( new Color(204, 204, 204));
-        gradeLbl.setForeground( new Color(204, 204, 204));
-        themeLbl.setForeground( new Color(204, 204, 204));
-        /*saveChangeBtn.setBackground( new Color(31, 30, 38, 204));
-        saveChangeBtn.setForeground( new Color(204, 204, 204));
-        saveChangeBtn.setBackground( new Color(31, 30, 38, 204));
-        applyChangeBtn.setForeground( new Color(204, 204, 204));*/
+    public void SettingsLightTheme(JLabel nameLbl){
+        nameLbl.setForeground( new Color(31, 30, 38));
     }
-    
+
+
+
 }

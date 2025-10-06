@@ -4,25 +4,22 @@ package UI;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-import UI.LoginPage;
 import Managers.DarkTheme;
 import Managers.FileHandler;
 import Managers.LightTheme;
-import Managers.ProgressTracker;
 import Managers.Task;
 import Managers.TaskManager;
 import Managers.ThemeManager;
 import com.formdev.flatlaf.*;
 
 import java.awt.*;
-import java.awt.event.*;
+
 import org.jfree.chart.*;
 import org.jfree.chart.plot.*;
 import org.jfree.data.general.*;
 
 import javax.swing.*;
 import javax.swing.table.*;
-import java.io.*;
 import java.time.*;
 import java.time.format.*;
 import java.util.*;
@@ -33,7 +30,6 @@ public class MainMenu extends javax.swing.JFrame {
     ArrayList<Task> tasks = fileHandler.readTaskFile();
     ThemeManager themeManager = new ThemeManager();
     TaskManager taskManager = new TaskManager();
-    TaskFrame taskFrame = new TaskFrame();
     DarkTheme dt = new DarkTheme();
     LightTheme lt = new LightTheme();
 
@@ -47,22 +43,11 @@ public class MainMenu extends javax.swing.JFrame {
         setTitle("Homework Reminder App");
 
         applyTheme("Dark");
-        applyFuncCos();
         displayTasks(tasks);
         pieChart(tasks);
 
-    }
+        themeManager.transparentButton(AddTaskBtn);
 
-    /**
-     * Method to call all the methods from the other classes
-     */
-    private void applyFuncCos() {
-
-        themeManager.addPlaceholder(SearchFld, "Search");
-
-        SearchBtn.setToolTipText("Search");
-        themeManager.transparentButton(SearchBtn);
-        
     }
 
     /**
@@ -75,7 +60,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         ArrayList<Task> todayTasks = new ArrayList<>();
         ArrayList<Task> upcomingTasks = new ArrayList<>();
-        ArrayList<Task> allTasks = tasks;
 
         // Filter today's and upcoming tasks
         for (Task task : tasks) {
@@ -123,7 +107,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         // ----- Homework Tasks -----
         DefaultTableModel homeworkModel = new DefaultTableModel(new String[]{"Task Name", "Subject", "Due Date", "Priority", "Status"}, 0);
-        for (Task task : allTasks) {
+        for (Task task : tasks) {
             homeworkModel.addRow(new Object[]{
                     task.getTaskName(),
                     task.getSubject(),
@@ -146,24 +130,34 @@ public class MainMenu extends javax.swing.JFrame {
                 UIManager.setLookAndFeel(new FlatDarkLaf());
                 SidePnl.setBackground(new Color(30, 31, 38));
                 // Update icons for the dark theme
-                SearchFld.setForeground(new Color(31, 30, 38, 128));
                 dt.BackgroundDarkTheme(DashBG, HomeworkBG, ProgBG, SettingsBG);
                 dt.DashboardDarkTheme(TodaysTasklbl, UpcomingTasklbl, ProgressSummaryLbl);
-                dt.ProgressDarkTheme(Completedlbl, Pendinglbl, Overduelbl, PieChartPnl, TotalTasksbl, ProgCompletelbl,
-                                     ProgPendinglbl, ProgOverduelbl);
-                dt.SettingsDarkTheme(SettNamelbl, SettSchoolLbl, SettSchoolLbl, SettThemelbl/*, SettSaveChangeBtn, SettApplyBtn*/);
+                dt.ProgressDarkTheme(Completedlbl, Pendinglbl, Overduelbl, PieChartPnl, TotalTasksbl, RateCompletelbl,
+                        RatePendinglbl, RateOverduelbl);
+                dt.SettingsDarkTheme(Themelbl);
                 updateIcons("/darkThemeIcons/");
+                try {
+                    UIManager.setLookAndFeel(new FlatDarkLaf());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "ERROR" , "Failed to load theme",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             } else if ("Light".equalsIgnoreCase(themeName)) {
                 UIManager.setLookAndFeel(new FlatLightLaf());
-                lt.BackgroundLightTheme(DashBG, HomeworkBG, ProgBG, SettingsBG);
-                SearchFld.setForeground(new Color(204, 204, 204, 128));
-                lt.DashboardLightTheme(TodaysTasklbl, UpcomingTasklbl, ProgressSummaryLbl);
-                lt.ProgressLightTheme(Completedlbl, Pendinglbl, Overduelbl, PieChartPnl, TotalTasksbl, ProgCompletelbl,
-                        ProgPendinglbl, ProgOverduelbl);
-                lt.SettingsLightTheme(SettNamelbl, SettSchoolLbl, SettSchoolLbl, SettThemelbl/*, SettSaveChangeBtn, SettApplyBtn*/);
                 SidePnl.setBackground(new Color(204, 204, 204));
                 // Update icons for the light theme
+                lt.BackgroundLightTheme(DashBG, HomeworkBG, ProgBG, SettingsBG);
+                lt.DashboardLightTheme(TodaysTasklbl, UpcomingTasklbl, ProgressSummaryLbl);
+                lt.ProgressLightTheme(Completedlbl, Pendinglbl, Overduelbl, PieChartPnl, TotalTasksbl, RateCompletelbl,
+                        RatePendinglbl, RateOverduelbl);
+                lt.SettingsLightTheme(Themelbl);
                 updateIcons("/lightThemeIcons/");
+                try {
+                    UIManager.setLookAndFeel(new FlatLightLaf());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "ERROR" , "Failed to load theme",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
 
             // Update the entire UI tree of the current frame to apply the new Look and Feel
@@ -188,7 +182,6 @@ public class MainMenu extends javax.swing.JFrame {
         ProgressIcon.setIcon(new ImageIcon(getClass().getResource(iconPath + "progress.png")));
         SettingsIcon.setIcon(new ImageIcon(getClass().getResource(iconPath + "settings.png")));
         LogoutIcon.setIcon(new ImageIcon(getClass().getResource(iconPath + "logout.png")));
-        SearchBtn.setIcon(new ImageIcon(getClass().getResource(iconPath + "search.png")));
     }
 
     /**
@@ -196,13 +189,14 @@ public class MainMenu extends javax.swing.JFrame {
      * @param tasks
      */
     private void pieChart(ArrayList<Task> tasks) {
-        ProgressTracker progressTracker = new ProgressTracker(0, 0, 0, 0);
-        progressTracker.calculateProgress(tasks);
 
-        int total = progressTracker.getTotal();
-        int complete = progressTracker.getCompleted();
-        int pending = progressTracker.getPending();
-        int overdue = progressTracker.getOverdue();
+        // Get the progress summary using the getProgressSummary method
+        int[] progressSummary = taskManager.getProgressSummary();
+
+        int total = progressSummary[0];
+        int complete = progressSummary[1];
+        int pending = progressSummary[2];
+        int overdue = progressSummary[3];
 
         DefaultPieDataset pieChart = new DefaultPieDataset();
         pieChart.setValue("Completed Tasks", complete);
@@ -235,14 +229,18 @@ public class MainMenu extends javax.swing.JFrame {
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setBackground(new Color(31, 30, 38));
 
+        double rateCompleted = Math.round(((double) complete / total) * 1000) / 10.0;
+        double ratePending = Math.round(((double) pending / total) * 1000) / 10.0;
+        double rateOverdue = Math.round(((double) complete / total) * 1000) / 10.0;
+
         Completedlbl.setText("Completed: " + complete);
         Pendinglbl.setText("Pending: " + pending);
         Overduelbl.setText("Overdue: " + overdue);
 
         TotalTasksbl.setText("Total Tasks: " + total);
-        ProgCompletelbl.setText("✅ Complete: " + complete);
-        ProgPendinglbl.setText("⌛ Pending:   " + pending);
-        ProgOverduelbl.setText("⚠Overdue:  " + overdue);
+        RateCompletelbl.setText("Rate Completed: "  + rateCompleted + "%");
+        RatePendinglbl.setText("Rate Pending:   " + ratePending + "%");
+        RateOverduelbl.setText("Rate Overdue:  " + rateOverdue + "%");
 
         PieChartPnl.removeAll();
         PieChartPnl.setLayout(new BorderLayout());
@@ -280,12 +278,10 @@ public class MainMenu extends javax.swing.JFrame {
         ProgressSummaryLbl = new javax.swing.JLabel();
         DashBG = new javax.swing.JLabel();
         HomeworkPnl = new javax.swing.JPanel();
-        SearchBtn = new javax.swing.JButton();
-        SearchFld = new javax.swing.JTextField();
         HomeworkFilter = new javax.swing.JComboBox<>();
         Homework = new javax.swing.JScrollPane();
         HomeworkTbl = new javax.swing.JTable();
-        TaskFrame = new javax.swing.JButton();
+        AddTaskBtn = new javax.swing.JButton();
         HomeworkBG = new javax.swing.JLabel();
         ProgressPnl = new javax.swing.JPanel();
         Completedlbl = new javax.swing.JLabel();
@@ -295,17 +291,13 @@ public class MainMenu extends javax.swing.JFrame {
         PieChartPnl = new javax.swing.JPanel();
         jSeparator3 = new javax.swing.JSeparator();
         TotalTasksbl = new javax.swing.JLabel();
-        ProgCompletelbl = new javax.swing.JLabel();
-        ProgPendinglbl = new javax.swing.JLabel();
-        ProgOverduelbl = new javax.swing.JLabel();
+        RateCompletelbl = new javax.swing.JLabel();
+        RatePendinglbl = new javax.swing.JLabel();
+        RateOverduelbl = new javax.swing.JLabel();
         ProgBG = new javax.swing.JLabel();
         SettingsPnl = new javax.swing.JPanel();
-        SettNamelbl = new javax.swing.JLabel();
-        SettSchoolLbl = new javax.swing.JLabel();
-        SettGradelbl = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
         jSeparator4 = new javax.swing.JSeparator();
-        SettThemelbl = new javax.swing.JLabel();
+        Themelbl = new javax.swing.JLabel();
         ThemeSelector = new javax.swing.JComboBox<>();
         jSeparator5 = new javax.swing.JSeparator();
         SettingsBG = new javax.swing.JLabel();
@@ -497,21 +489,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         HomeworkPnl.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        SearchBtn.setMaximumSize(new java.awt.Dimension(30, 30));
-        SearchBtn.setMinimumSize(new java.awt.Dimension(30, 30));
-        SearchBtn.setPreferredSize(new java.awt.Dimension(30, 30));
-        HomeworkPnl.add(SearchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 5, 30, 30));
-
-        SearchFld.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        SearchFld.setForeground(new java.awt.Color(255, 255, 255));
-        SearchFld.setToolTipText("Search");
-        SearchFld.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchFldActionPerformed(evt);
-            }
-        });
-        HomeworkPnl.add(SearchFld, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 5, 150, 30));
-
         HomeworkFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Today", "Upcoming" }));
         HomeworkFilter.setMinimumSize(new java.awt.Dimension(95, 25));
         HomeworkFilter.addActionListener(new java.awt.event.ActionListener() {
@@ -519,7 +496,7 @@ public class MainMenu extends javax.swing.JFrame {
                 HomeworkFilterActionPerformed(evt);
             }
         });
-        HomeworkPnl.add(HomeworkFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 40, 120, -1));
+        HomeworkPnl.add(HomeworkFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 60, 140, -1));
 
         Homework.setPreferredSize(new java.awt.Dimension(670, 350));
 
@@ -538,14 +515,14 @@ public class MainMenu extends javax.swing.JFrame {
 
         HomeworkPnl.add(Homework, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
 
-        TaskFrame.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add.png"))); // NOI18N
-        TaskFrame.setPreferredSize(new java.awt.Dimension(70, 70));
-        TaskFrame.addActionListener(new java.awt.event.ActionListener() {
+        AddTaskBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/add.png"))); // NOI18N
+        AddTaskBtn.setPreferredSize(new java.awt.Dimension(50, 50));
+        AddTaskBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TaskFrameActionPerformed(evt);
+                AddTaskBtnActionPerformed(evt);
             }
         });
-        HomeworkPnl.add(TaskFrame, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 510, -1, -1));
+        HomeworkPnl.add(AddTaskBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 510, -1, -1));
 
         HomeworkBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BACKBROUND.png"))); // NOI18N
         HomeworkPnl.add(HomeworkBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 700));
@@ -584,19 +561,19 @@ public class MainMenu extends javax.swing.JFrame {
 
         TotalTasksbl.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         TotalTasksbl.setText("Total Tasks: ");
-        ProgressPnl.add(TotalTasksbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 530, 250, 40));
+        ProgressPnl.add(TotalTasksbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 530, 220, 40));
 
-        ProgCompletelbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        ProgCompletelbl.setText("✅ Complete: ");
-        ProgressPnl.add(ProgCompletelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 620, 150, 30));
+        RateCompletelbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        RateCompletelbl.setText("✅ Complete: ");
+        ProgressPnl.add(RateCompletelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 620, 220, 30));
 
-        ProgPendinglbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        ProgPendinglbl.setText("⌛ Pending:   ");
-        ProgressPnl.add(ProgPendinglbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 620, 150, 30));
+        RatePendinglbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        RatePendinglbl.setText("⌛ Pending:   ");
+        ProgressPnl.add(RatePendinglbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 620, 210, 30));
 
-        ProgOverduelbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        ProgOverduelbl.setText("⚠Overdue:  ");
-        ProgressPnl.add(ProgOverduelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 620, 150, 30));
+        RateOverduelbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        RateOverduelbl.setText("⚠Overdue:  ");
+        ProgressPnl.add(RateOverduelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 620, 200, 30));
 
         ProgBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BACKBROUND.png"))); // NOI18N
         ProgressPnl.add(ProgBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 700));
@@ -607,38 +584,16 @@ public class MainMenu extends javax.swing.JFrame {
         SettingsPnl.setPreferredSize(new java.awt.Dimension(690, 700));
         SettingsPnl.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        SettNamelbl.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        SettNamelbl.setText("Name :");
-        SettNamelbl.setPreferredSize(new java.awt.Dimension(100, 50));
-        SettingsPnl.add(SettNamelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
-
-        SettSchoolLbl.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        SettSchoolLbl.setText("School:");
-        SettSchoolLbl.setPreferredSize(new java.awt.Dimension(100, 50));
-        SettingsPnl.add(SettSchoolLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
-
-        SettGradelbl.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        SettGradelbl.setText("Grade :");
-        SettGradelbl.setMaximumSize(new java.awt.Dimension(100, 50));
-        SettGradelbl.setMinimumSize(new java.awt.Dimension(100, 50));
-        SettGradelbl.setPreferredSize(new java.awt.Dimension(100, 50));
-        SettingsPnl.add(SettGradelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, -1));
-
-        jComboBox2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "8", "9", "10", "11", "12" }));
-        jComboBox2.setPreferredSize(new java.awt.Dimension(150, 50));
-        SettingsPnl.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, -1, -1));
-
         jSeparator4.setForeground(new java.awt.Color(31, 30, 38));
         jSeparator4.setPreferredSize(new java.awt.Dimension(650, 3));
         SettingsPnl.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
 
-        SettThemelbl.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        SettThemelbl.setText("Theme :");
-        SettThemelbl.setMaximumSize(new java.awt.Dimension(100, 50));
-        SettThemelbl.setMinimumSize(new java.awt.Dimension(100, 50));
-        SettThemelbl.setPreferredSize(new java.awt.Dimension(100, 50));
-        SettingsPnl.add(SettThemelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 325, -1, -1));
+        Themelbl.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        Themelbl.setText("Theme :");
+        Themelbl.setMaximumSize(new java.awt.Dimension(100, 50));
+        Themelbl.setMinimumSize(new java.awt.Dimension(100, 50));
+        Themelbl.setPreferredSize(new java.awt.Dimension(100, 50));
+        SettingsPnl.add(Themelbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, -1, -1));
 
         ThemeSelector.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         ThemeSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dark", "Light" }));
@@ -648,11 +603,11 @@ public class MainMenu extends javax.swing.JFrame {
                 ThemeSelectorActionPerformed(evt);
             }
         });
-        SettingsPnl.add(ThemeSelector, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 325, -1, -1));
+        SettingsPnl.add(ThemeSelector, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 350, -1, -1));
 
         jSeparator5.setForeground(new java.awt.Color(31, 30, 38));
         jSeparator5.setPreferredSize(new java.awt.Dimension(650, 3));
-        SettingsPnl.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 450, -1, -1));
+        SettingsPnl.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, -1, -1));
 
         SettingsBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BACKBROUND.png"))); // NOI18N
         SettingsPnl.add(SettingsBG, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -676,22 +631,29 @@ public class MainMenu extends javax.swing.JFrame {
     private void DashboardIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashboardIconMouseClicked
         // TODO add your handling code here:
         themeManager.showDashboardPanel(DashboardPnl, HomeworkPnl, ProgressPnl, SettingsPnl);
+        displayTasks(tasks);
+        pieChart(tasks);
     }//GEN-LAST:event_DashboardIconMouseClicked
 
     private void HomeworkIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeworkIconMouseClicked
         // TODO add your handling code here:
         themeManager.showHomeworkPanel(DashboardPnl, HomeworkPnl, ProgressPnl, SettingsPnl);
+        displayTasks(tasks);
+        pieChart(tasks);
     }//GEN-LAST:event_HomeworkIconMouseClicked
 
     private void ProgressIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProgressIconMouseClicked
         // TODO add your handling code here:
         themeManager.showProgressPanel(DashboardPnl, HomeworkPnl, ProgressPnl, SettingsPnl);
-
+        displayTasks(tasks);
+        pieChart(tasks);
     }//GEN-LAST:event_ProgressIconMouseClicked
 
     private void SettingsIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SettingsIconMouseClicked
         // TODO add your handling code here:
         themeManager.showSettingsPanel(DashboardPnl, HomeworkPnl, ProgressPnl, SettingsPnl);
+        displayTasks(tasks);
+        pieChart(tasks);
     }//GEN-LAST:event_SettingsIconMouseClicked
 
     private void LogoutIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutIconMouseClicked
@@ -699,11 +661,6 @@ public class MainMenu extends javax.swing.JFrame {
         this.dispose();
         new LoginPage().show(true);
     }//GEN-LAST:event_LogoutIconMouseClicked
-
-    private void SearchFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchFldActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_SearchFldActionPerformed
 
     private void HomeworkFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeworkFilterActionPerformed
         // TODO add your handling code here:
@@ -717,11 +674,10 @@ public class MainMenu extends javax.swing.JFrame {
         applyTheme(selectedTheme);
     }//GEN-LAST:event_ThemeSelectorActionPerformed
 
-    private void TaskFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TaskFrameActionPerformed
+    private void AddTaskBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddTaskBtnActionPerformed
         // TODO add your handling code here:
-        this.dispose();
         new TaskFrame().setVisible(true);
-    }//GEN-LAST:event_TaskFrameActionPerformed
+    }//GEN-LAST:event_AddTaskBtnActionPerformed
     
     /**
      * @param args the command line arguments
@@ -736,7 +692,7 @@ public class MainMenu extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(new FlatDarkLaf());
         } catch (Exception ex) {
-            System.err.println("\n\n\n\n\n\n\n\t\t\t\t\tFailed to load theme");
+            JOptionPane.showMessageDialog(null, "ERROR" , "Failed to load theme", JOptionPane.ERROR_MESSAGE);
         }
 
         /* Create and display the form */
@@ -748,6 +704,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddTaskBtn;
     private javax.swing.JLabel Completedlbl;
     private javax.swing.JLabel DashBG;
     private javax.swing.JLabel DashboardIcon;
@@ -764,26 +721,20 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel Pendinglbl;
     private javax.swing.JPanel PieChartPnl;
     private javax.swing.JLabel ProgBG;
-    private javax.swing.JLabel ProgCompletelbl;
-    private javax.swing.JLabel ProgOverduelbl;
-    private javax.swing.JLabel ProgPendinglbl;
     private javax.swing.JLabel ProgressIcon;
     private javax.swing.JPanel ProgressPnl;
     private javax.swing.JLabel ProgressSummaryLbl;
     private javax.swing.JTable ProgressSummaryTbl;
     private javax.swing.JScrollPane ProgressSunnary;
-    private javax.swing.JButton SearchBtn;
-    private javax.swing.JTextField SearchFld;
-    private javax.swing.JLabel SettGradelbl;
-    private javax.swing.JLabel SettNamelbl;
-    private javax.swing.JLabel SettSchoolLbl;
-    private javax.swing.JLabel SettThemelbl;
+    private javax.swing.JLabel RateCompletelbl;
+    private javax.swing.JLabel RateOverduelbl;
+    private javax.swing.JLabel RatePendinglbl;
     private javax.swing.JLabel SettingsBG;
     private javax.swing.JLabel SettingsIcon;
     private javax.swing.JPanel SettingsPnl;
     private javax.swing.JPanel SidePnl;
-    private javax.swing.JButton TaskFrame;
     private javax.swing.JComboBox<String> ThemeSelector;
+    private javax.swing.JLabel Themelbl;
     private javax.swing.JLabel TodaysTasklbl;
     private javax.swing.JScrollPane TodaysTasks;
     private javax.swing.JTable TodaysTasksTbl;
@@ -791,7 +742,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane UpcomingTask;
     private javax.swing.JTable UpcomingTaskTbl;
     private javax.swing.JLabel UpcomingTasklbl;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;

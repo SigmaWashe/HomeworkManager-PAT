@@ -1,0 +1,15 @@
+@startuml
+class Managers.TaskManager {
+- ArrayList<Task> taskList
+- FileHandler fileHandler
++ void addTask(Task)
++ boolean editTask(int,Task)
++ boolean markTaskDone(int)
++ boolean deleteTask(int)
++ ArrayList<Task> searchTask(String)
++ int[] getProgressSummary()
++ ArrayList<Task> getTaskList()
+}
+
+
+@enduml

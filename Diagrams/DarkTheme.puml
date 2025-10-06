@@ -1,0 +1,9 @@
+@startuml
+class Managers.DarkTheme {
++ void BackgroundDarkTheme(JLabel,JLabel,JLabel,JLabel)
++ void DashboardDarkTheme(JLabel,JLabel,JLabel)
++ void ProgressDarkTheme(JLabel,JLabel,JLabel,JPanel,JLabel,JLabel,JLabel,JLabel)
++ void SettingsDarkTheme(JLabel)
+}
+
+@enduml

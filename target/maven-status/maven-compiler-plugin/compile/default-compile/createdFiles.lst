@@ -1,5 +1,5 @@
 UI\TaskFrame$5.class
-UI\MainMenu$11.class
+UI\TaskFrame$15.class
 UI\LoginPage$4.class
 Managers\Settings.class
 UI\MainMenu$5.class
@@ -21,7 +21,6 @@ Managers\LightTheme.class
 UI\LoginPage$2.class
 UI\MainMenu$7.class
 UI\TaskFrame$2.class
-Managers\ProgressTracker.class
 Managers\ThemeManager$2.class
 UI\MainMenu$3.class
 UI\LoginPage$3.class
@@ -43,5 +42,4 @@ UI\TaskFrame$14.class
 UI\TaskFrame$7.class
 Managers\Authenticator.class
 UI\MainMenu$2.class
-UI\MainMenu$12.class
 UI\TaskFrame.class

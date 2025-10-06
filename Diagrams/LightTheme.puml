@@ -1,0 +1,9 @@
+@startuml
+class Managers.LightTheme {
++ void BackgroundLightTheme(JLabel,JLabel,JLabel,JLabel)
++ void DashboardLightTheme(JLabel,JLabel,JLabel)
++ void ProgressLightTheme(JLabel,JLabel,JLabel,JPanel,JLabel,JLabel,JLabel,JLabel)
++ void SettingsLightTheme(JLabel)
+}
+
+@enduml

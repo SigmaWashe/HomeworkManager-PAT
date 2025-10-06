@@ -1,0 +1,10 @@
+@startuml
+class Managers.Authenticator {
++ boolean checkLoginFile(String,String)
++ boolean writeSignupToFile(String,String)
++ void handleLoginAction(JFrame,JTextField,JPasswordField)
++ void handleSignupAction(JFrame,JTextField,JPasswordField)
++ void addLoginExitListeners(JFrame,JTextField,JPasswordField)
+}
+
+@enduml

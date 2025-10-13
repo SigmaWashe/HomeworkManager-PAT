@@ -13,6 +13,7 @@ import Managers.ThemeManager;
 import com.formdev.flatlaf.*;
 
 import java.awt.*;
+import java.awt.event.*;
 
 import org.jfree.chart.*;
 import org.jfree.chart.plot.*;

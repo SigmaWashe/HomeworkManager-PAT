@@ -10,6 +10,7 @@ import com.formdev.flatlaf.*;
 import com.toedter.calendar.*;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -42,11 +43,37 @@ public class TaskFrame extends javax.swing.JFrame {
         themeManager.transparentButton(DeleteTaskSearchBtn);
         themeManager.transparentButton(MarkDoneSearchBtn);
         
+        clearInputFields(TaskName, Subject, DueDate, HourChooser, MinuteChooser, PriorityChooser, StatusChooser);
+        clearInputFields(TaskName, Subject, DueDate, EditTaskDueHour, EditTaskDueMinute, EditTaskPriority, EditTaskStatus);
+        
         /// Show AddTaskPnl by default
         setPanel(AddTaskPnl, new Dimension(450, 500));
         this.pack();
         
+        themeManager.addPlaceholder(TaskName, "e.g. Literary Essay");
+        themeManager.addPlaceholder(Subject, "e.g. English");
+        
+        themeManager.addPlaceholder(EditTaskSearchFld, "Search");
+        themeManager.addPlaceholder(EditTaskNamefld, "e.g. Literary Essay");
+        themeManager.addPlaceholder(EditTaskSubjectfld, "e.g. English");
+        
+        themeManager.addPlaceholder(DeleteTaskSearchFld, "Search");
+        themeManager.addPlaceholder(MarkDoneSearchFld, "Search");
+        
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    dispose(); // Close the frame
+                    new MainMenu().setVisible(true);
+                }
+            }
+        });
+        
+        setFocusable(true);
+        requestFocusInWindow();
+        
     }
 
     /**
@@ -62,12 +89,19 @@ public class TaskFrame extends javax.swing.JFrame {
     private void clearTaskLabels(JLabel taskIDlbl, JLabel taskNamelbl, JLabel subjectlbl, JLabel dueDatelbl,
                                  JLabel dueTimelbl, JLabel prioritylbl, JLabel statuslbl) {
         taskIDlbl.setText("Task ID       :  ");
+        taskIDlbl.setForeground(new Color(204, 204, 204));
         taskNamelbl.setText("Task Name :  ");
+        taskNamelbl.setForeground(new Color(204, 204, 204));
         subjectlbl.setText("Subject       :  ");
+        subjectlbl.setForeground(new Color(204, 204, 204));
         dueDatelbl.setText("Due Date    :  ");
+        dueDatelbl.setForeground(new Color(204, 204, 204));
         dueTimelbl.setText("Due Time    :  ");
+        dueTimelbl.setForeground(new Color(204, 204, 204));
         prioritylbl.setText("Priority      :  ");
+        prioritylbl.setForeground(new Color(204, 204, 204));
         statuslbl.setText("Status        :  ");
+        statuslbl.setForeground(new Color(204, 204, 204));
     }
 
     /**
@@ -83,12 +117,19 @@ public class TaskFrame extends javax.swing.JFrame {
     private void clearInputFields(JTextField taskName, JTextField subject, JDateChooser dateChooser, JComboBox hourChooser,
                                   JComboBox minuteChooser, JComboBox priorityChooser, JComboBox statusChooser) {
         taskName.setText("");
+        taskName.setForeground(new Color(204, 204, 204));
         subject.setText("");
+        subject.setForeground(new Color(204, 204, 204));
         dateChooser.setDate(null);
+        dateChooser.setForeground(new Color(204, 204, 204));
         hourChooser.setSelectedIndex(0);
+        hourChooser.setForeground(new Color(204, 204, 204));
         minuteChooser.setSelectedIndex(0);
+        minuteChooser.setForeground(new Color(204, 204, 204));
         priorityChooser.setSelectedIndex(0);
+        priorityChooser.setForeground(new Color(204, 204, 204));
         statusChooser.setSelectedIndex(0);
+        statusChooser.setForeground(new Color(204, 204, 204));
     }
 
     /**
@@ -585,7 +626,7 @@ public class TaskFrame extends javax.swing.JFrame {
 
             // Get and validate the task name.
             String taskName = TaskName.getText().trim().toUpperCase();
-            if (taskName.isEmpty()) {
+            if (taskName.isEmpty() || taskName.equalsIgnoreCase("e.g. Literary Essay")) {
                 JOptionPane.showMessageDialog(this, "Please enter a task name.",
                         "Input Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -593,7 +634,7 @@ public class TaskFrame extends javax.swing.JFrame {
 
             // Get and validate the subject.
             String subject = Subject.getText().trim().toUpperCase();
-            if (subject.isEmpty()) {
+            if (subject.isEmpty() || subject.equalsIgnoreCase("e.g. English")) {
                 JOptionPane.showMessageDialog(this, "Please enter a subject.",
                         "Input Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -778,7 +819,7 @@ public class TaskFrame extends javax.swing.JFrame {
                     "Success", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error while editing task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Enter an valid task to edit", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }//GEN-LAST:event_EditTaskBtnActionPerformed
@@ -875,6 +916,9 @@ public class TaskFrame extends javax.swing.JFrame {
 
                 Prioritylbl2.setText("Priority      : " + foundTask.getPriority());
                 Statuslbl2.setText("Status        : " + foundTask.getStatus());
+                
+                
+                
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error while searching: " + e.getMessage(),
